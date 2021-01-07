@@ -10,7 +10,7 @@
 //
 
 using System;
-using Unity.Jobs;
+using System.Threading.Tasks;
 
 namespace DaggerfallWorkshop
 {
@@ -84,7 +84,7 @@ namespace DaggerfallWorkshop
         /// </summary>
         /// <param name="mapPixel">MapPixelData struct.</param>
         /// <returns>JobHandle of the scheduled job.</returns>
-        JobHandle ScheduleGenerateSamplesJob(ref MapPixelData mapPixel);
+        Task ScheduleGenerateSamplesJob(ref MapPixelData mapPixel);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ namespace DaggerfallWorkshop
         public abstract void GenerateSamples(ref MapPixelData mapPixel);
 
         // Makes terrain sampler implementations backwards compatible with jobs system terrain data generation.
-        public virtual JobHandle ScheduleGenerateSamplesJob(ref MapPixelData mapPixel)
+        public virtual Task ScheduleGenerateSamplesJob(ref MapPixelData mapPixel)
         {
             GenerateSamples(ref mapPixel);
 
@@ -123,7 +123,7 @@ namespace DaggerfallWorkshop
                     mapPixel.heightmapData[JobA.Idx(y, x, hDim)] = mapPixel.heightmapSamples[y, x];
                 }
             }
-            return new JobHandle();
+            return Task.CompletedTask;
         }
     }
 }

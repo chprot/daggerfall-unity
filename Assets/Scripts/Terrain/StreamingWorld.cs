@@ -16,6 +16,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DaggerfallConnect;
 using DaggerfallConnect.Arena2;
 using DaggerfallConnect.Utility;
@@ -23,7 +24,6 @@ using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Utility;
 using DaggerfallWorkshop.Game.Utility;
 using DaggerfallWorkshop.Game.Serialization;
-using Unity.Jobs;
 
 namespace DaggerfallWorkshop
 {
@@ -1199,15 +1199,15 @@ namespace DaggerfallWorkshop
             }
 
             // Update data for terrain
-            JobHandle updateTerrainDataJobHandle = dfTerrain.BeginMapPixelDataUpdate(dfUnity.TerrainTexturing);
+            Task updateTerrainDataJobHandle = dfTerrain.BeginMapPixelDataUpdate(dfUnity.TerrainTexturing);
 
             CompleteUpdateTerrainDataJobs(terrainDesc, dfTerrain, updateTerrainDataJobHandle);
         }
 
-        private void CompleteUpdateTerrainDataJobs(TerrainDesc terrainDesc, DaggerfallTerrain dfTerrain, JobHandle updateTerrainDataJobHandle)
+        private void CompleteUpdateTerrainDataJobs(TerrainDesc terrainDesc, DaggerfallTerrain dfTerrain, Task updateTerrainDataJobHandle)
         {
             // Ensure jobs have completed.
-            updateTerrainDataJobHandle.Complete();
+            updateTerrainDataJobHandle.Wait();
             dfTerrain.CompleteMapPixelDataUpdate(dfUnity.TerrainTexturing);
 
             // Promote data to live terrain
@@ -1232,7 +1232,7 @@ namespace DaggerfallWorkshop
                 dfTerrain.InstantiateTerrain();
             }
 
-            JobHandle updateTerrainDataJobHandle = dfTerrain.BeginMapPixelDataUpdate(dfUnity.TerrainTexturing);
+            Task updateTerrainDataJobHandle = dfTerrain.BeginMapPixelDataUpdate(dfUnity.TerrainTexturing);
             yield return new WaitUntil(() => updateTerrainDataJobHandle.IsCompleted);
 
             CompleteUpdateTerrainDataJobs(terrainDesc, dfTerrain, updateTerrainDataJobHandle);

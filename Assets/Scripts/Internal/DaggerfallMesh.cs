@@ -164,7 +164,8 @@ namespace DaggerfallWorkshop
             DFLocation.ClimateBaseType climateIndex = Game.GameManager.Instance.PlayerGPS.ClimateSettings.ClimateType;
             for (int i = 0; i < defaultTextures.Count; i++)
             {
-                MaterialReader.ReverseTextureKey(defaultTextures[i], out int archive, out int record, out _);
+                int archive, record, frame;
+                MaterialReader.ReverseTextureKey(defaultTextures[i], ref archive, ref record, ref frame);
                 archive = DungeonTextureTables.ApplyTextureTable(archive, dungeonTextureTable, climateIndex);
                 materials[i] = dfUnity.MaterialReader.GetMaterial(archive, record);
             }

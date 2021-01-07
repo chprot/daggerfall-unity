@@ -198,7 +198,7 @@ namespace DaggerfallWorkshop.Game.UserInterfaceWindows
             get { return identifying && findingLocation && RegionSelected; }
         }
 
-        public ContentReader.MapSummary LocationSummary { get => locationSummary; }
+        public ContentReader.MapSummary LocationSummary { get { return locationSummary; } }
 
         public void ActivateTeleportationTravel()
         {

@@ -13,7 +13,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Collections;
 using DaggerfallConnect;
 using DaggerfallConnect.Arena2;
 using DaggerfallConnect.Utility;
@@ -388,16 +387,16 @@ namespace DaggerfallWorkshop
         public float[,] heightmapSamples;           // Heightmap samples for terrain - indexed [y,x] for Terrain.SetHeights
 
         [HideInInspector, NonSerialized]
-        public NativeArray<float> heightmapData;    // Heightmap data for terrain jobs (unmanaged memory)
+        public float[] heightmapData;    // Heightmap data for terrain jobs (unmanaged memory)
 
         [HideInInspector, NonSerialized]
-        public NativeArray<byte> tilemapData;       // Tilemap data for terrain jobs (unmanaged memory)
+        public byte[] tilemapData;       // Tilemap data for terrain jobs (unmanaged memory)
 
         [HideInInspector, NonSerialized]
-        public NativeArray<Color32> tileMap;        // Tilemap color data for shader (unmanaged memory)
+        public Color32[] tileMap;        // Tilemap color data for shader (unmanaged memory)
 
         [HideInInspector, NonSerialized]
-        public NativeArray<float> avgMaxHeight;     // Average and max height of terrain for location placement (unmanaged memory)
+        public float[] avgMaxHeight;     // Average and max height of terrain for location placement (unmanaged memory)
 
         [HideInInspector, NonSerialized]
         public List<IDisposable> nativeArrayList;   // List of temp working native arrays (unmanaged memory) for disposal when jobs complete

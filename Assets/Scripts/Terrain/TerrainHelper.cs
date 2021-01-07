@@ -15,8 +15,8 @@ using DaggerfallConnect.Arena2;
 using DaggerfallConnect.Utility;
 using DaggerfallWorkshop.Utility;
 using DaggerfallWorkshop.Utility.AssetInjection;
-using Unity.Jobs;
-using Unity.Collections;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace DaggerfallWorkshop
 {
@@ -189,19 +189,23 @@ namespace DaggerfallWorkshop
 
         #region Terrain Jobs - Schedulers
 
-        public static JobHandle ScheduleCalcAvgMaxHeightJob(ref MapPixelData mapPixel, JobHandle dependencies)
+        public static Task ScheduleCalcAvgMaxHeightJob(ref MapPixelData mapPixel, Task dependencies)
         {
-            CalcAvgMaxHeightJob calcAvgMaxHeightJob = new CalcAvgMaxHeightJob()
+            CalcAvgMaxHeightParams calcAvgMaxHeightParams = new CalcAvgMaxHeightParams()
             {
                 heightmapData = mapPixel.heightmapData,
                 avgMaxHeight = mapPixel.avgMaxHeight,
             };
-            return calcAvgMaxHeightJob.Schedule(dependencies);
+            Task calcAvgMaxHeightTask = Task.Factory.StartNew(CalcAvgMaxHeightTask, calcAvgMaxHeightParams);
+            List<Task> tasks = new List<Task>();
+            tasks.Add(dependencies);
+            tasks.Add(calcAvgMaxHeightTask);
+            return Task.WhenAll(tasks);
         }
 
-        public static JobHandle ScheduleBlendLocationTerrainJob(ref MapPixelData mapPixel, JobHandle dependencies)
+        public static Task ScheduleBlendLocationTerrainJob(ref MapPixelData mapPixel, Task dependencies)
         {
-            BlendLocationTerrainJob blendLocationTerrainJob = new BlendLocationTerrainJob()
+            BlendLocationTerrainParams blendLocationTerrainParams = new BlendLocationTerrainParams()
             {
                 heightmapData = mapPixel.heightmapData,
                 avgMaxHeight = mapPixel.avgMaxHeight,
@@ -211,162 +215,190 @@ namespace DaggerfallWorkshop
             int extraBlendSpace = ExtraBlendSpace(mapPixel.LocationType);
             if (extraBlendSpace > 0)
             {
-                blendLocationTerrainJob.locationRect.xMin -= extraBlendSpace;
-                blendLocationTerrainJob.locationRect.xMax += extraBlendSpace;
-                blendLocationTerrainJob.locationRect.yMin -= extraBlendSpace;
-                blendLocationTerrainJob.locationRect.yMax += extraBlendSpace;
+                blendLocationTerrainParams.locationRect.xMin -= extraBlendSpace;
+                blendLocationTerrainParams.locationRect.xMax += extraBlendSpace;
+                blendLocationTerrainParams.locationRect.yMin -= extraBlendSpace;
+                blendLocationTerrainParams.locationRect.yMax += extraBlendSpace;
             }
-            return blendLocationTerrainJob.Schedule(dependencies);
-        }
 
-        public static JobHandle ScheduleUpdateTileMapDataJob(ref MapPixelData mapPixel, JobHandle dependencies)
+            Task blendLocationTerrainTask = Task.Factory.StartNew(BlendLocationTerrainTask, blendLocationTerrainParams);
+            List<Task> tasks = new List<Task>();
+            tasks.Add(dependencies);
+            tasks.Add(blendLocationTerrainTask);
+            return Task.WhenAll(tasks);
+        }
+        
+        public static Task ScheduleUpdateTileMapDataJob(ref MapPixelData mapPixel, Task dependencies)
         {
+            List<Task> tasks = new List<Task>();
             int tilemapDim = MapsFile.WorldMapTileDim;
-            UpdateTileMapDataJob updateTileMapDataJob = new UpdateTileMapDataJob()
+            for (int i = 0; i < tilemapDim * tilemapDim; i++)
             {
-                tilemapData = mapPixel.tilemapData,
-                tileMap = mapPixel.tileMap,
-                tDim = tilemapDim,
-            };
-            return updateTileMapDataJob.Schedule(tilemapDim * tilemapDim, 64, dependencies);
+                UpdateTileMapDataParams updateTileMapDataParams = new UpdateTileMapDataParams()
+                {
+                    tilemapData = mapPixel.tilemapData,
+                    tileMap = mapPixel.tileMap,
+                    tDim = tilemapDim,
+
+                    index = i,
+                };
+
+                Task updateTilemapDataTask = Task.Factory.StartNew(UpdateTileMapDataTask, updateTileMapDataParams);
+                tasks.Add(updateTilemapDataTask);
+            }
+            tasks.Add(dependencies);
+            return Task.WhenAll(tasks);
         }
 
         #endregion
 
         #region Terrain Jobs
 
-        // Calculates average and maximum heights of terrain data
-        struct CalcAvgMaxHeightJob : IJob
+        struct CalcAvgMaxHeightParams
         {
-            [ReadOnly]
-            public NativeArray<float> heightmapData;
-
-            public NativeArray<float> avgMaxHeight;
-
-            public void Execute()
-            {
-                for (int i = 0; i < heightmapData.Length; i++)
-                {
-                    float height = heightmapData[i];
-                    // Accumulate average height
-                    avgMaxHeight[avgHeightIdx] += height;
-                    // Update max height
-                    if (height > avgMaxHeight[maxHeightIdx])
-                        avgMaxHeight[maxHeightIdx] = height;
-                }
-                avgMaxHeight[avgHeightIdx] = avgMaxHeight[avgHeightIdx] / heightmapData.Length;
-            }
+            public float[] heightmapData;
+            public float[] avgMaxHeight;
         }
-
-        // Flattens location terrain and blends with surrounding terrain
-        struct BlendLocationTerrainJob : IJob
+        
+        // Calculates average and maximum heights of terrain data
+        public static void CalcAvgMaxHeightTask(object calcAvgMaxHeightParamsObj)
         {
-            public NativeArray<float> heightmapData;
-            [ReadOnly]
-            public NativeArray<float> avgMaxHeight;
+            CalcAvgMaxHeightParams calcAvgMaxHeightParams = (CalcAvgMaxHeightParams)calcAvgMaxHeightParamsObj;
+            float[] heightmapData = calcAvgMaxHeightParams.heightmapData;
+            float[] avgMaxHeight = calcAvgMaxHeightParams.avgMaxHeight;
+
+            for (int i = 0; i < heightmapData.Length; i++)
+            {
+                float height = heightmapData[i];
+                // Accumulate average height
+                avgMaxHeight[avgHeightIdx] += height;
+                // Update max height
+                if (height > avgMaxHeight[maxHeightIdx])
+                    avgMaxHeight[maxHeightIdx] = height;
+            }
+            avgMaxHeight[avgHeightIdx] = avgMaxHeight[avgHeightIdx] / heightmapData.Length;
+        }
+        
+        struct BlendLocationTerrainParams
+        {
+            public float[] heightmapData;
+            public float[] avgMaxHeight;
 
             public int hDim;
             public Rect locationRect;
+        }
 
-            public void Execute()
+        // Flattens location terrain and blends with surrounding terrain
+        public static void BlendLocationTerrainTask(object blendLocationTerrainParamsObj)
+        {
+            BlendLocationTerrainParams blendLocationTerrainParams = (BlendLocationTerrainParams)blendLocationTerrainParamsObj;
+            float[] heightmapData = blendLocationTerrainParams.heightmapData;
+            float[] avgMaxHeight = blendLocationTerrainParams.avgMaxHeight;
+            int hDim = blendLocationTerrainParams.hDim;
+            Rect locationRect = blendLocationTerrainParams.locationRect;
+
+            // Convert from rect in tilemap space to interior corners in 0-1 range
+            float xMin = locationRect.xMin / MapsFile.WorldMapTileDim;
+            float xMax = locationRect.xMax / MapsFile.WorldMapTileDim;
+            float yMin = locationRect.yMin / MapsFile.WorldMapTileDim;
+            float yMax = locationRect.yMax / MapsFile.WorldMapTileDim;
+
+            // Scale values for converting blend space into 0-1 range
+            float leftScale = 1 / xMin;
+            float rightScale = 1 / (1 - xMax);
+            float topScale = 1 / yMin;
+            float bottomScale = 1 / (1 - yMax);
+
+            // Flatten location area and blend with surrounding heights
+            float strength = 0;
+            float targetHeight = avgMaxHeight[avgHeightIdx];
+            for (int y = 0; y < hDim; y++)
             {
-                // Convert from rect in tilemap space to interior corners in 0-1 range
-                float xMin = locationRect.xMin / MapsFile.WorldMapTileDim;
-                float xMax = locationRect.xMax / MapsFile.WorldMapTileDim;
-                float yMin = locationRect.yMin / MapsFile.WorldMapTileDim;
-                float yMax = locationRect.yMax / MapsFile.WorldMapTileDim;
+                float v = (float)y / (float)(hDim - 1);
+                bool insideY = (v >= yMin && v <= yMax);
 
-                // Scale values for converting blend space into 0-1 range
-                float leftScale = 1 / xMin;
-                float rightScale = 1 / (1 - xMax);
-                float topScale = 1 / yMin;
-                float bottomScale = 1 / (1 - yMax);
-
-                // Flatten location area and blend with surrounding heights
-                float strength = 0;
-                float targetHeight = avgMaxHeight[avgHeightIdx];
-                for (int y = 0; y < hDim; y++)
+                for (int x = 0; x < hDim; x++)
                 {
-                    float v = (float)y / (float)(hDim - 1);
-                    bool insideY = (v >= yMin && v <= yMax);
+                    float u = (float)x / (float)(hDim - 1);
+                    bool insideX = (u >= xMin && u <= xMax);
 
-                    for (int x = 0; x < hDim; x++)
+
+                    if (insideX || insideY)
                     {
-                        float u = (float)x / (float)(hDim - 1);
-                        bool insideX = (u >= xMin && u <= xMax);
-
-
-                        if (insideX || insideY)
-                        {
-                            if (insideY && u <= xMin)
-                                strength = u * leftScale;
-                            else if (insideY && u >= xMax)
-                                strength = (1 - u) * rightScale;
-                            else if (insideX && v <= yMin)
-                                strength = v * topScale;
-                            else if (insideX && v >= yMax)
-                                strength = (1 - v) * bottomScale;
-                        }
-                        else
-                        {
-                            float xs = 0, ys = 0;
-                            if (u <= xMin) xs = u * leftScale; else if (u >= xMax) xs = (1 - u) * rightScale;
-                            if (v <= yMin) ys = v * topScale; else if (v >= yMax) ys = (1 - v) * bottomScale;
-                            strength = TerrainHelper.BilinearInterpolator(0, 0, 0, 1, xs, ys);
-                        }
-
-                        int idx = JobA.Idx(y, x, hDim);
-                        float height = heightmapData[idx];
-
-                        if (insideX && insideY)
-                            height = targetHeight;
-                        else
-                            height = Mathf.Lerp(height, targetHeight, strength);
-
-                        heightmapData[idx] = height;
+                        if (insideY && u <= xMin)
+                            strength = u * leftScale;
+                        else if (insideY && u >= xMax)
+                            strength = (1 - u) * rightScale;
+                        else if (insideX && v <= yMin)
+                            strength = v * topScale;
+                        else if (insideX && v >= yMax)
+                            strength = (1 - v) * bottomScale;
                     }
+                    else
+                    {
+                        float xs = 0, ys = 0;
+                        if (u <= xMin) xs = u * leftScale; else if (u >= xMax) xs = (1 - u) * rightScale;
+                        if (v <= yMin) ys = v * topScale; else if (v >= yMax) ys = (1 - v) * bottomScale;
+                        strength = TerrainHelper.BilinearInterpolator(0, 0, 0, 1, xs, ys);
+                    }
+
+                    int idx = JobA.Idx(y, x, hDim);
+                    float height = heightmapData[idx];
+
+                    if (insideX && insideY)
+                        height = targetHeight;
+                    else
+                        height = Mathf.Lerp(height, targetHeight, strength);
+
+                    heightmapData[idx] = height;
                 }
             }
         }
 
-        // Converts tileMap data to color array for use by shader
-        struct UpdateTileMapDataJob : IJobParallelFor
+        struct UpdateTileMapDataParams
         {
-            [ReadOnly]
-            public NativeArray<byte> tilemapData;
-            [WriteOnly]
-            public NativeArray<Color32> tileMap;
-
+            public byte[] tilemapData;
+            public Color32[] tileMap;
             public int tDim;
 
-            public void Execute(int index)
-            {
-                int x = JobA.Row(index, tDim);
-                int y = JobA.Col(index, tDim);
+            public int index;
+        }
 
-                // Assign tile data to tilemap
-                Color32 tileColor = new Color32(0, 0, 0, 0);
+        // Converts tileMap data to color array for use by shader
+        public static void UpdateTileMapDataTask(object updateTileMapDataParamsObj)
+        {
+            UpdateTileMapDataParams updateTileMapDataParams = (UpdateTileMapDataParams)updateTileMapDataParamsObj;
+            byte[] tilemapData = updateTileMapDataParams.tilemapData;
+            Color32[] tileMap = updateTileMapDataParams.tileMap;
+            int tDim = updateTileMapDataParams.tDim;
 
-                // Get sample tile data
-                byte tile = tilemapData[JobA.Idx(x, y, tDim)];
+            int index = updateTileMapDataParams.index;
+            
+            int x = JobA.Row(index, tDim);
+            int y = JobA.Col(index, tDim);
 
-                // Convert from [flip,rotate,6bit-record] => [6bit-record,flip,rotate]
-                int record;
-                if (tile == byte.MaxValue)
-                {   // Zeros are converted to FF so assign tiles doesn't overwrite location tiles, convert back.
-                    record = 0;
-                }
-                else
-                {
-                    record = tile * 4;
-                    if ((tile & rotBit) != 0) record += 1;
-                    if ((tile & flipBit) != 0) record += 2;
-                }
+            // Assign tile data to tilemap
+            Color32 tileColor = new Color32(0, 0, 0, 0);
 
-                // Assign to tileMap
-                tileColor.r = tileColor.a = (byte)record;
-                tileMap[y * tDim + x] = tileColor;
+            // Get sample tile data
+            byte tile = tilemapData[JobA.Idx(x, y, tDim)];
+
+            // Convert from [flip,rotate,6bit-record] => [6bit-record,flip,rotate]
+            int record;
+            if (tile == byte.MaxValue)
+            {   // Zeros are converted to FF so assign tiles doesn't overwrite location tiles, convert back.
+                record = 0;
             }
+            else
+            {
+                record = tile * 4;
+                if ((tile & rotBit) != 0) record += 1;
+                if ((tile & flipBit) != 0) record += 2;
+            }
+
+            // Assign to tileMap
+            tileColor.r = tileColor.a = (byte)record;
+            tileMap[y * tDim + x] = tileColor;
         }
 
         #endregion

@@ -11,8 +11,8 @@
 
 using UnityEngine;
 using DaggerfallConnect.Arena2;
-using Unity.Jobs;
-using Unity.Collections;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace DaggerfallWorkshop
 {
@@ -51,14 +51,11 @@ namespace DaggerfallWorkshop
             throw new System.NotImplementedException();
         }
 
-        struct GenerateSamplesJob : IJobParallelFor
+        struct GenerateSamplesParams
         {
-            [ReadOnly]
-            public NativeArray<byte> shm;
-            [ReadOnly]
-            public NativeArray<byte> lhm;
-
-            public NativeArray<float> heightmapData;
+            public byte[] shm;
+            public byte[] lhm;
+            public float[] heightmapData;
 
             public byte sd;
             public byte ld;
@@ -68,59 +65,76 @@ namespace DaggerfallWorkshop
             public int mapPixelY;
             public float maxTerrainHeight;
 
-            float baseHeight, noiseHeight;
-            float x1, x2, x3, x4;
-
-            public void Execute(int index)
-            {
-                // Use cols=x and rows=y for height data
-                int x = JobA.Col(index, hDim);
-                int y = JobA.Row(index, hDim);
-
-                float rx = (float)x / div;
-                float ry = (float)y / div;
-                int ix = Mathf.FloorToInt(rx);
-                int iy = Mathf.FloorToInt(ry);
-                float sfracx = (float)x / (float)(hDim - 1);
-                float sfracy = (float)y / (float)(hDim - 1);
-                float fracx = (float)(x - ix * div) / div;
-                float fracy = (float)(y - iy * div) / div;
-                float scaledHeight = 0;
-
-                // Bicubic sample small height map for base terrain elevation
-                x1 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 3, sd)], shm[JobA.Idx(1, 3, sd)], shm[JobA.Idx(2, 3, sd)], shm[JobA.Idx(3, 3, sd)], sfracx);
-                x2 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 2, sd)], shm[JobA.Idx(1, 2, sd)], shm[JobA.Idx(2, 2, sd)], shm[JobA.Idx(3, 2, sd)], sfracx);
-                x3 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 1, sd)], shm[JobA.Idx(1, 1, sd)], shm[JobA.Idx(2, 1, sd)], shm[JobA.Idx(3, 1, sd)], sfracx);
-                x4 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 0, sd)], shm[JobA.Idx(1, 0, sd)], shm[JobA.Idx(2, 0, sd)], shm[JobA.Idx(3, 0, sd)], sfracx);
-                baseHeight = TerrainHelper.CubicInterpolator(x1, x2, x3, x4, sfracy);
-                scaledHeight += baseHeight * baseHeightScale;
-
-                // Bicubic sample large height map for noise mask over terrain features
-                x1 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 0, ld)], lhm[JobA.Idx(ix + 1, iy + 0, ld)], lhm[JobA.Idx(ix + 2, iy + 0, ld)], lhm[JobA.Idx(ix + 3, iy + 0, ld)], fracx);
-                x2 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 1, ld)], lhm[JobA.Idx(ix + 1, iy + 1, ld)], lhm[JobA.Idx(ix + 2, iy + 1, ld)], lhm[JobA.Idx(ix + 3, iy + 1, ld)], fracx);
-                x3 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 2, ld)], lhm[JobA.Idx(ix + 1, iy + 2, ld)], lhm[JobA.Idx(ix + 2, iy + 2, ld)], lhm[JobA.Idx(ix + 3, iy + 2, ld)], fracx);
-                x4 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 3, ld)], lhm[JobA.Idx(ix + 1, iy + 3, ld)], lhm[JobA.Idx(ix + 2, iy + 3, ld)], lhm[JobA.Idx(ix + 3, iy + 3, ld)], fracx);
-                noiseHeight = TerrainHelper.CubicInterpolator(x1, x2, x3, x4, fracy);
-                scaledHeight += noiseHeight * noiseMapScale;
-
-                // Additional noise mask for small terrain features at ground level
-                int noisex = mapPixelX * (hDim - 1) + x;
-                int noisey = (MapsFile.MaxMapPixelY - mapPixelY) * (hDim - 1) + y;
-                float lowFreq = TerrainHelper.GetNoise(noisex, noisey, 0.3f, 0.5f, 0.5f, 1);
-                float highFreq = TerrainHelper.GetNoise(noisex, noisey, 0.9f, 0.5f, 0.5f, 1);
-                scaledHeight += (lowFreq * highFreq) * extraNoiseScale;
-
-                // Clamp lower values to ocean elevation
-                if (scaledHeight < scaledOceanElevation)
-                    scaledHeight = scaledOceanElevation;
-
-                // Set sample
-                float height = Mathf.Clamp01(scaledHeight / maxTerrainHeight);
-                heightmapData[index] = height;
-            }
+            public int index;
         }
 
-        public override JobHandle ScheduleGenerateSamplesJob(ref MapPixelData mapPixel)
+        public static void GenerateSamplesTask(object generateSamplesParamsObj)
+        {
+            GenerateSamplesParams generateSamplesParams = (GenerateSamplesParams)generateSamplesParamsObj;
+            byte[] shm = generateSamplesParams.shm;
+            byte[] lhm = generateSamplesParams.lhm;
+            float[] heightmapData = generateSamplesParams.heightmapData;
+
+            byte sd = generateSamplesParams.sd;
+            byte ld = generateSamplesParams.ld;
+            int hDim = generateSamplesParams.hDim;
+            float div = generateSamplesParams.div;
+            int mapPixelX = generateSamplesParams.mapPixelX;
+            int mapPixelY = generateSamplesParams.mapPixelY;
+            float maxTerrainHeight = generateSamplesParams.maxTerrainHeight;
+
+            int index = generateSamplesParams.index;
+
+            float baseHeight, noiseHeight;
+            float x1, x2, x3, x4;
+            
+            // Use cols=x and rows=y for height data
+            int x = JobA.Col(index, hDim);
+            int y = JobA.Row(index, hDim);
+
+            float rx = (float)x / div;
+            float ry = (float)y / div;
+            int ix = Mathf.FloorToInt(rx);
+            int iy = Mathf.FloorToInt(ry);
+            float sfracx = (float)x / (float)(hDim - 1);
+            float sfracy = (float)y / (float)(hDim - 1);
+            float fracx = (float)(x - ix * div) / div;
+            float fracy = (float)(y - iy * div) / div;
+            float scaledHeight = 0;
+
+            // Bicubic sample small height map for base terrain elevation
+            x1 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 3, sd)], shm[JobA.Idx(1, 3, sd)], shm[JobA.Idx(2, 3, sd)], shm[JobA.Idx(3, 3, sd)], sfracx);
+            x2 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 2, sd)], shm[JobA.Idx(1, 2, sd)], shm[JobA.Idx(2, 2, sd)], shm[JobA.Idx(3, 2, sd)], sfracx);
+            x3 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 1, sd)], shm[JobA.Idx(1, 1, sd)], shm[JobA.Idx(2, 1, sd)], shm[JobA.Idx(3, 1, sd)], sfracx);
+            x4 = TerrainHelper.CubicInterpolator(shm[JobA.Idx(0, 0, sd)], shm[JobA.Idx(1, 0, sd)], shm[JobA.Idx(2, 0, sd)], shm[JobA.Idx(3, 0, sd)], sfracx);
+            baseHeight = TerrainHelper.CubicInterpolator(x1, x2, x3, x4, sfracy);
+            scaledHeight += baseHeight * baseHeightScale;
+
+            // Bicubic sample large height map for noise mask over terrain features
+            x1 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 0, ld)], lhm[JobA.Idx(ix + 1, iy + 0, ld)], lhm[JobA.Idx(ix + 2, iy + 0, ld)], lhm[JobA.Idx(ix + 3, iy + 0, ld)], fracx);
+            x2 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 1, ld)], lhm[JobA.Idx(ix + 1, iy + 1, ld)], lhm[JobA.Idx(ix + 2, iy + 1, ld)], lhm[JobA.Idx(ix + 3, iy + 1, ld)], fracx);
+            x3 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 2, ld)], lhm[JobA.Idx(ix + 1, iy + 2, ld)], lhm[JobA.Idx(ix + 2, iy + 2, ld)], lhm[JobA.Idx(ix + 3, iy + 2, ld)], fracx);
+            x4 = TerrainHelper.CubicInterpolator(lhm[JobA.Idx(ix, iy + 3, ld)], lhm[JobA.Idx(ix + 1, iy + 3, ld)], lhm[JobA.Idx(ix + 2, iy + 3, ld)], lhm[JobA.Idx(ix + 3, iy + 3, ld)], fracx);
+            noiseHeight = TerrainHelper.CubicInterpolator(x1, x2, x3, x4, fracy);
+            scaledHeight += noiseHeight * noiseMapScale;
+
+            // Additional noise mask for small terrain features at ground level
+            int noisex = mapPixelX * (hDim - 1) + x;
+            int noisey = (MapsFile.MaxMapPixelY - mapPixelY) * (hDim - 1) + y;
+            float lowFreq = TerrainHelper.GetNoise(noisex, noisey, 0.3f, 0.5f, 0.5f, 1);
+            float highFreq = TerrainHelper.GetNoise(noisex, noisey, 0.9f, 0.5f, 0.5f, 1);
+            scaledHeight += (lowFreq * highFreq) * extraNoiseScale;
+
+            // Clamp lower values to ocean elevation
+            if (scaledHeight < scaledOceanElevation)
+                scaledHeight = scaledOceanElevation;
+
+            // Set sample
+            float height = Mathf.Clamp01(scaledHeight / maxTerrainHeight);
+            heightmapData[index] = height;
+        }
+
+        public override Task ScheduleGenerateSamplesJob(ref MapPixelData mapPixel)
         {
             DaggerfallUnity dfUnity = DaggerfallUnity.Instance;
 
@@ -131,39 +145,44 @@ namespace DaggerfallWorkshop
             int mx = mapPixel.mapPixelX;
             int my = mapPixel.mapPixelY;
             byte sDim = 4;
-            NativeArray<byte> shm = new NativeArray<byte>(dfUnity.ContentReader.WoodsFileReader.GetHeightMapValuesRange1Dim(mx - 2, my - 2, sDim), Allocator.TempJob);
+            byte[] shm = dfUnity.ContentReader.WoodsFileReader.GetHeightMapValuesRange1Dim(mx - 2, my - 2, sDim);
 
             // Convert & flatten large height samples 2d array into 1d native array.
             byte[,] lhm2 = dfUnity.ContentReader.WoodsFileReader.GetLargeHeightMapValuesRange(mx - 1, my, 3);
-            NativeArray<byte> lhm = new NativeArray<byte>(lhm2.Length, Allocator.TempJob);
+            byte[] lhm = new byte[lhm2.Length];
             byte lDim = (byte)lhm2.GetLength(0);
             int i = 0;
             for (int y = 0; y < lDim; y++)
                 for (int x = 0; x < lDim; x++)
                     lhm[i++] = lhm2[x, y];
 
-            // Add both working native arrays to disposal list.
-            mapPixel.nativeArrayList.Add(shm);
-            mapPixel.nativeArrayList.Add(lhm);
-
             // Extract height samples for all chunks
             int hDim = HeightmapDimension;
-            GenerateSamplesJob generateSamplesJob = new GenerateSamplesJob
-            {
-                shm = shm,
-                lhm = lhm,
-                heightmapData = mapPixel.heightmapData,
-                sd = sDim,
-                ld = lDim,
-                hDim = hDim,
-                div = div,
-                mapPixelX = mapPixel.mapPixelX,
-                mapPixelY = mapPixel.mapPixelY,
-                maxTerrainHeight = MaxTerrainHeight,
-            };
 
-            JobHandle generateSamplesHandle = generateSamplesJob.Schedule(hDim * hDim, 64);     // Batch = 1 breaks it since shm not copied... test again later
-            return generateSamplesHandle;
+            List<Task> tasks = new List<Task>();
+            for (int index = 0; index < hDim * hDim; index++)
+            {
+                GenerateSamplesParams generateSamplesParams = new GenerateSamplesParams
+                {
+                    shm = shm,
+                    lhm = lhm,
+                    heightmapData = mapPixel.heightmapData,
+                    sd = sDim,
+                    ld = lDim,
+                    hDim = hDim,
+                    div = div,
+                    mapPixelX = mapPixel.mapPixelX,
+                    mapPixelY = mapPixel.mapPixelY,
+                    maxTerrainHeight = MaxTerrainHeight,
+
+                    index = index,
+                };
+                
+                Task generateSamplesTask = Task.Factory.StartNew(GenerateSamplesTask, generateSamplesParams);
+                tasks.Add(generateSamplesTask);
+            }
+
+            return Task.WhenAll(tasks);
         }
     }
 }

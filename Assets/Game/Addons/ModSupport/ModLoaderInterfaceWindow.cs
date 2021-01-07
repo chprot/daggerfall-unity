@@ -335,7 +335,8 @@ public class ModLoaderInterfaceWindow : DaggerfallPopupWindow
             modsett.modInfo = mods[i].ModInfo;
             modsett.enabled = mods[i].Enabled;
             modSettings[i] = modsett;
-            modList.AddItem(modsett.modInfo.ModTitle, out ListBox.ListItem item);
+            ListBox.ListItem item = new ListBox.ListItem(new TextLabel());
+            modList.AddItem(modsett.modInfo.ModTitle, ref item);
             item.textColor = modsett.enabled ? unselectedTextColor : disabledModTextColor;
         }
 

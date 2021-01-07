@@ -14,9 +14,10 @@ using System;
 using DaggerfallConnect;
 using DaggerfallConnect.Arena2;
 using DaggerfallWorkshop.Utility;
-using Unity.Collections;
-using Unity.Jobs;
+//using Unity.Collections;
+//using Unity.Jobs;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DaggerfallWorkshop
 {
@@ -187,6 +188,59 @@ namespace DaggerfallWorkshop
         /// </summary>
         /// <param name="terrainTexturing">Instance of ITerrainTexturing implementation class to use.</param>
         /// <returns>JobHandle of the scheduled jobs</returns>
+        public Task BeginMapPixelDataUpdate(ITerrainTexturing terrainTexturing = null)
+        {
+            // Get basic terrain data.
+            MapData = TerrainHelper.GetMapPixelData(dfUnity.ContentReader, MapPixelX, MapPixelY);
+
+            // Create data array for heightmap.
+            MapData.heightmapData = new float[heightmapDim * heightmapDim];
+
+            // Create data array for tilemap data.
+            MapData.tilemapData = new byte[tilemapDim * tilemapDim];
+
+            // Create data array for shader tile map data.
+            MapData.tileMap = new Color32[tilemapDim * tilemapDim];
+
+            // Create data array for average & max heights.
+            MapData.avgMaxHeight = new float[] { 0, float.MinValue };
+
+            // Create list for recording native arrays that need disposal after jobs complete.
+            MapData.nativeArrayList = new List<IDisposable>();
+
+            // Generate heightmap samples. (returns when complete)
+            Task generateHeightmapSamplesJobHandle = dfUnity.TerrainSampler.ScheduleGenerateSamplesJob(ref MapData);
+
+            // Handle location if one is present on terrain.
+            Task blendLocationTerrainJobHandle;
+            if (MapData.hasLocation)
+            {
+                // Schedule job to calc average & max heights.
+                Task calcAvgMaxHeightJobHandle = TerrainHelper.ScheduleCalcAvgMaxHeightJob(ref MapData, generateHeightmapSamplesJobHandle);
+
+                // Set location tiles.
+                TerrainHelper.SetLocationTiles(ref MapData);
+
+                if (!dfUnity.TerrainSampler.IsLocationTerrainBlended())
+                {
+                    // Schedule job to blend and flatten location heights. (depends on SetLocationTiles being done first)
+                    blendLocationTerrainJobHandle = TerrainHelper.ScheduleBlendLocationTerrainJob(ref MapData, calcAvgMaxHeightJobHandle);
+                }
+                else
+                    blendLocationTerrainJobHandle = calcAvgMaxHeightJobHandle;
+            }
+            else
+                blendLocationTerrainJobHandle = generateHeightmapSamplesJobHandle;
+
+            // Assign tiles for terrain texturing.
+            Task assignTilesJobHandle = (terrainTexturing == null) ? blendLocationTerrainJobHandle :
+                terrainTexturing.ScheduleAssignTilesJob(dfUnity.TerrainSampler, ref MapData, blendLocationTerrainJobHandle);
+
+            // Update tile map for shader.
+            Task updateTileMapJobHandle = TerrainHelper.ScheduleUpdateTileMapDataJob(ref MapData, assignTilesJobHandle);
+            return updateTileMapJobHandle;
+        }
+        /*
         public JobHandle BeginMapPixelDataUpdate(ITerrainTexturing terrainTexturing = null)
         {
             // Get basic terrain data.
@@ -241,6 +295,7 @@ namespace DaggerfallWorkshop
             JobHandle.ScheduleBatchedJobs();
             return updateTileMapJobHandle;
         }
+        */
 
         /// <summary>
         /// Complete terrain data update using jobs system. (second of a two stage process)
