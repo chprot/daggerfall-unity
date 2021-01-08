@@ -71,7 +71,6 @@ GameObject:
   - component: {fileID: 114840134560359766}
   - component: {fileID: 114748815340743790}
   - component: {fileID: 114449952657020122}
-  - component: {fileID: 54794059612215240}
   - component: {fileID: 114435996750409546}
   - component: {fileID: 114852212289254396}
   - component: {fileID: 114898669506426152}
@@ -95,7 +94,7 @@ GameObject:
   - component: {fileID: 114536045176262442}
   - component: {fileID: 114923542465571498}
   - component: {fileID: 114770496304257520}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PlayerAdvanced
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -395,21 +394,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!54 &54794059612215240
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1344667674797870}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 2
 --- !u!81 &81806863099367238
 AudioListener:
   m_ObjectHideFlags: 1
@@ -853,7 +837,7 @@ MonoBehaviour:
   RainParticles: {fileID: 1578997821543944}
   SnowParticles: {fileID: 1941258193454478}
   WeatherType: 0
-  ClimateWeathers: 
+  ClimateWeathers: 000000000000
 --- !u!114 &114449952657020122
 MonoBehaviour:
   m_ObjectHideFlags: 1

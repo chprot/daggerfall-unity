@@ -190,6 +190,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4413186804492422, guid: 20610c3bce7d3d6478c77cc6d2789985,
     type: 2}
   m_PrefabInternal: {fileID: 64970852}
+--- !u!114 &64970854 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114198459101602488, guid: 20610c3bce7d3d6478c77cc6d2789985,
+    type: 2}
+  m_PrefabInternal: {fileID: 64970852}
+  m_Script: {fileID: 11500000, guid: 783cc940874bf354ea2eddedd004b96b, type: 3}
 --- !u!1 &95153702
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,8 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7daa0464f3dd34d995bf1dbf73c5a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamingWorld: {fileID: 401895382}
-  Player: {fileID: 0}
+  StreamingWorld: {fileID: 909565410}
+  Player: {fileID: 1629860468}
 --- !u!1 &97801937
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,29 +585,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 405984, guid: 48d7e9ceb6b670f478927df5fbd99043, type: 2}
   m_PrefabInternal: {fileID: 132844358}
---- !u!114 &188505318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ad42a6ae133d274c9d4b094186582db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Angle: -90
-  ScaleFactor: 1
-  ShadowStrength: 1
-  IndirectLight: {fileID: 0}
-  LocalPlayer: {fileID: 0}
-  LightCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  OtherLights: []
 --- !u!1 &304606374
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,26 +742,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &401895382
-MonoBehaviour:
+--- !u!1001 &436574343
+Prefab:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab61802efb5887c4395c406f282ed9bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LocalPlayerGPS: {fileID: 0}
-  TerrainDistance: 3
-  MapPixelX: 207
-  MapPixelY: 213
-  TerrainScale: 1.5
-  EditorFindLocationString: Daggerfall/Privateer's Hold
-  streamingTarget: {fileID: 0}
-  suppressWorld: 0
-  ShowDebugString: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 0811f78212229814d8c469c916304789, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 0811f78212229814d8c469c916304789, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &568293853
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,9 +878,22 @@ Prefab:
       propertyPath: DungeonParent
       value: 
       objectReference: {fileID: 620133648}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 54794059612215240, guid: 024442d8d9376b640b839267ed244a11, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 024442d8d9376b640b839267ed244a11, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &572192747 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114748815340743790, guid: 024442d8d9376b640b839267ed244a11,
+    type: 2}
+  m_PrefabInternal: {fileID: 572192746}
+  m_Script: {fileID: 11500000, guid: 12e531286826ff44e9d880d9de35257e, type: 3}
+--- !u!114 &572192748 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114435996750409546, guid: 024442d8d9376b640b839267ed244a11,
+    type: 2}
+  m_PrefabInternal: {fileID: 572192746}
+  m_Script: {fileID: 11500000, guid: 325fb3a3c023cd64488bf55fc1429150, type: 3}
 --- !u!1 &606669035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,9 +1038,39 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
+      propertyPath: LocalPlayerGPS
+      value: 
+      objectReference: {fileID: 572192747}
+    - target: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
+      propertyPath: suppressWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
+      propertyPath: streamingTarget
+      value: 
+      objectReference: {fileID: 1769263313}
+    - target: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
+      propertyPath: MapPixelX
+      value: 109
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
+      propertyPath: MapPixelY
+      value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
+      propertyPath: TerrainScale
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bbe5e15c9f6b3dc47bb9485a437750a0, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &909565410 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11466528, guid: bbe5e15c9f6b3dc47bb9485a437750a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 909565409}
+  m_Script: {fileID: 11500000, guid: ab61802efb5887c4395c406f282ed9bc, type: 3}
 --- !u!1 &916827718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,160 +1258,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!1 &951067695
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 951067701}
-  - component: {fileID: 951067700}
-  - component: {fileID: 951067699}
-  - component: {fileID: 951067698}
-  - component: {fileID: 951067697}
-  - component: {fileID: 951067696}
-  m_Layer: 0
-  m_Name: DaggerfallUnity
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &951067696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 951067695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 743257e53050c9344ab2b21bdbd5d8d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Arena2Path: 
-  ModelImporter_ModelID: 456
-  BlockImporter_BlockName: MAGEAA01.RMB
-  CityImporter_CityName: Daggerfall/Daggerfall
-  Experimental_CityLayoutName: Daggerfall/Aldcart
-  DungeonImporter_DungeonName: Daggerfall/Privateer's Hold
-  Option_SetStaticFlags: 1
-  Option_CombineRMB: 1
-  Option_CombineRDB: 1
-  Option_BatchBillboards: 1
-  Option_AddMeshColliders: 1
-  Option_AddNavmeshAgents: 1
-  Option_RMBGroundPlane: 1
-  Option_ImportLightPrefabs: 1
-  Option_CityLightPrefab: {fileID: 0}
-  Option_DungeonLightPrefab: {fileID: 0}
-  Option_InteriorLightPrefab: {fileID: 0}
-  Option_ImportDoorPrefabs: 1
-  Option_DungeonDoorPrefab: {fileID: 0}
-  Option_InteriorDoorPrefab: {fileID: 0}
-  Option_CityBlockPrefab: {fileID: 0}
-  Option_DungeonBlockPrefab: {fileID: 0}
-  Option_MobileNPCPrefab: {fileID: 0}
-  Option_ImportEnemyPrefabs: 1
-  Option_EnemyPrefab: {fileID: 0}
-  Option_ImportRandomTreasure: 1
-  Option_LootContainerPrefab: {fileID: 0}
-  Option_DungeonWaterPrefab: {fileID: 0}
-  Option_DungeonWaterPlaneSize: {x: 1, y: 1, z: 1}
-  Option_DungeonWaterPlaneOffset: {x: 0, y: 0, z: 0}
-  Option_AutomateTextureSwaps: 1
-  Option_AutomateSky: 1
-  Option_AutomateCityWindows: 1
-  Option_AutomateCityLights: 1
-  Option_AutomateCityGates: 0
---- !u!114 &951067697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 951067695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c76f560fcfeb2f945a36da764400a281, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &951067698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 951067695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1654648048f5e4ca76b2e9f99dd919, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AddMeshTangents: 1
-  AddMeshLightmapUVs: 0
---- !u!114 &951067699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 951067695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa90c88382e6a0440bb268626863c5fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AtlasTextures: 1
-  CompressSkyTextures: 0
-  CompressModdedTextures: 1
-  Sharpen: 0
-  GenerateNormals: 0
-  NormalTextureStrength: 0.2
-  MainFilterMode: 0
-  SkyFilterMode: 0
-  MipMaps: 1
-  ReadableTextures: 0
-  AlphaTextureFormat: 3
-  DayWindowColor: {r: 0.34901962, g: 0.6039216, b: 0.69803923, a: 1}
-  NightWindowColor: {r: 1, g: 0.7137255, b: 0.21960784, a: 1}
-  FogWindowColor: {r: 0.45882353, g: 0.45882353, b: 0.45882353, a: 1}
-  CustomWindowColor: {r: 0.78431374, g: 0, b: 0.78431374, a: 1}
-  DayWindowIntensity: 0.5
-  NightWindowIntensity: 0.8
-  FogWindowIntensity: 0.5
-  CustomWindowIntensity: 1
---- !u!114 &951067700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 951067695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13e5361fed4c6d44999e5bc6862f9fc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DaggerfallDateTime:
-    Year: 405
-    Month: 5
-    Day: 0
-    Hour: 12
-    Minute: 0
-    Second: 0
-  RaiseTimeInSeconds: 0
-  TimeScale: 12
-  ShowDebugString: 0
---- !u!4 &951067701
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 951067695}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1080633578
 Prefab:
   m_ObjectHideFlags: 0
@@ -1416,6 +1310,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4494518217686022, guid: 763a63a8188554d47ba3226be85a48a0,
     type: 2}
   m_PrefabInternal: {fileID: 1080633578}
+--- !u!114 &1080633580 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114812006289866488, guid: 763a63a8188554d47ba3226be85a48a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1080633578}
+  m_Script: {fileID: 11500000, guid: 8ad42a6ae133d274c9d4b094186582db, type: 3}
 --- !u!1 &1102152086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,9 +1620,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0270aadfafe331147bdac7026b20ea29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerWeather: {fileID: 1891957996}
-  DaggerfallSky: {fileID: 1918867144}
-  SunlightManager: {fileID: 188505318}
+  PlayerWeather: {fileID: 572192748}
+  DaggerfallSky: {fileID: 64970854}
+  SunlightManager: {fileID: 1080633580}
   WeatherEffects: {fileID: 102824932}
   OvercastSunlightScale: 0.65
   RainSunlightScale: 0.5
@@ -2153,21 +2053,6 @@ Transform:
   m_Father: {fileID: 1402597}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1891957996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 325fb3a3c023cd64488bf55fc1429150, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RainParticles: {fileID: 0}
-  SnowParticles: {fileID: 0}
-  WeatherType: 0
-  ClimateWeathers: 
 --- !u!1001 &1912988437
 Prefab:
   m_ObjectHideFlags: 0
@@ -2275,32 +2160,6 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22400006, guid: 312abd0527754e047a6bfbc424f09ace,
     type: 2}
   m_PrefabInternal: {fileID: 1912988437}
---- !u!114 &1918867144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 783cc940874bf354ea2eddedd004b96b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AutoCameraSetup: 1
-  LocalPlayerGPS: {fileID: 0}
-  SkyIndex: 16
-  SkyFrame: 31
-  IsNight: 0
-  ShowStars: 1
-  SkyTintColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  SkyColorScale: 1
-  SkyCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  WeatherStyle: 0
 --- !u!1001 &2089943014
 Prefab:
   m_ObjectHideFlags: 0

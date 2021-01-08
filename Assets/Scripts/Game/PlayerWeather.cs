@@ -1,4 +1,4 @@
-﻿// Project:         Daggerfall Tools For Unity
+// Project:         Daggerfall Tools For Unity
 // Copyright:       Copyright (C) 2009-2020 Daggerfall Workshop
 // Web Site:        http://www.dfworkshop.net
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -28,7 +28,7 @@ namespace DaggerfallWorkshop.Game
         public GameObject SnowParticles;
         public WeatherType WeatherType = WeatherType.Sunny;
         public PlayerGPS PlayerGps { get; private set; }
-        public byte[] ClimateWeathers;
+        public byte[] ClimateWeathers = new byte[6];
 
         PlayerEnterExit playerEnterExit;
         WeatherType _currentWeatherType = WeatherType.Sunny;
@@ -41,7 +41,7 @@ namespace DaggerfallWorkshop.Game
             playerEnterExit = GetComponent<PlayerEnterExit>();
             if (RainParticles) RainParticles.SetActive(false);
             if (SnowParticles) SnowParticles.SetActive(false);
-            ClimateWeathers = new byte[6];
+            //ClimateWeathers = new byte[6];
         }
 
         void Update()

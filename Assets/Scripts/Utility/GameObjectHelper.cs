@@ -337,8 +337,8 @@ namespace DaggerfallWorkshop.Utility
 #if UNITY_EDITOR && KEEP_PREFAB_LINKS
             if (prefab != null)
             {
-                //go = GameObject.Instantiate(prefab);
-                go = UnityEditor.PrefabUtility.InstantiatePrefab(prefab as GameObject) as GameObject;
+                go = GameObject.Instantiate(prefab);
+                //go = UnityEditor.PrefabUtility.InstantiatePrefab(prefab as GameObject) as GameObject;
                 if (!string.IsNullOrEmpty(name)) go.name = name;
                 if (parent != null) go.transform.parent = parent;
                 go.transform.position = position;
