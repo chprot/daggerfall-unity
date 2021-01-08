@@ -165,7 +165,7 @@ namespace DaggerfallWorkshop
             for (int i = 0; i < defaultTextures.Count; i++)
             {
                 int archive, record, frame;
-                MaterialReader.ReverseTextureKey(defaultTextures[i], ref archive, ref record, ref frame);
+                MaterialReader.ReverseTextureKey(defaultTextures[i], out archive, out record, out frame);
                 archive = DungeonTextureTables.ApplyTextureTable(archive, dungeonTextureTable, climateIndex);
                 materials[i] = dfUnity.MaterialReader.GetMaterial(archive, record);
             }

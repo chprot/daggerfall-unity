@@ -918,10 +918,13 @@ namespace DaggerfallWorkshop.Utility.AssetInjection
                 // Seek from mods
                 if (ModManager.Instance && ModManager.Instance.TryGetAsset(name, null, out tex))
                 {
+                    /*
                     if (!readOnly && !tex.isReadable)
                         Debug.LogWarning($"Texture {name} is not readable.");
 
                     return true;
+                    */
+                    return !readOnly; // can't check isReadable on vita version of unity
                 }
             }
 

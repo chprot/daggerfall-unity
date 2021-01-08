@@ -728,14 +728,20 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
         }
 
+        struct CheckForImportedContentsResult
+        {
+            public string prefabPath;
+            public string dataPath;
+        }
         /// <summary>
         /// Checks if a prefab has custom components that need to be deserialized by mod manager.
         /// Custom components are removed and edited prefab is saved to a temp location.
         /// </summary>
         /// <param name="prefabPath">Asset path of original prefab.</param>
         /// <returns>Paths of prefab copy and json data; null if not copied./returns>
-        private (string prefabPath, string dataPath)? CheckForImportedComponents(string prefabPath)
+        private CheckForImportedContentsResult? CheckForImportedComponents(string prefabPath)
         {
+            /*
             var go = PrefabUtility.LoadPrefabContents(prefabPath);
 
             try
@@ -756,6 +762,8 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             {
                 PrefabUtility.UnloadPrefabContents(go);
             }
+            */
+            return null;
         }
 
         private static BuildAssetBundleOptions ToBuildAssetBundleOptions(ModCompressionOptions value)

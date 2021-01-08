@@ -10,14 +10,14 @@
 //
 
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
+//using UnityEngine.Localization;
+//using UnityEngine.Localization.Settings;
 using System.Collections.Generic;
 using DaggerfallConnect;
 using DaggerfallConnect.Arena2;
 using DaggerfallWorkshop.Game.Items;
 using DaggerfallWorkshop.Localization;
-using UnityEngine.Localization.Tables;
+//using UnityEngine.Localization.Tables;
 using DaggerfallWorkshop.Game;
 
 namespace DaggerfallWorkshop.Utility
@@ -253,6 +253,7 @@ namespace DaggerfallWorkshop.Utility
         /// <returns>True if string found, otherwise false.</returns>
         public virtual bool GetLocalizedString(string collection, string id, out string result)
         {
+            /*
             result = string.Empty;
             if (string.IsNullOrEmpty(collection))
             {
@@ -286,6 +287,9 @@ namespace DaggerfallWorkshop.Utility
                     Debug.LogFormat("StringTable collection '{0}' not found", collection);
             }
 
+            return false;
+            */
+            result = string.Empty;
             return false;
         }
 

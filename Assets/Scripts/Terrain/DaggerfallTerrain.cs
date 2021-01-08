@@ -322,7 +322,7 @@ namespace DaggerfallWorkshop
             // Create tileMap array or resize if needed and copy native array.
             if (TileMap == null || TileMap.Length != MapData.tileMap.Length)
                 TileMap = new Color32[MapData.tileMap.Length];
-            MapData.tileMap.CopyTo(TileMap);
+            MapData.tileMap.CopyTo(TileMap, 0 /*index*/);
 
             // Copy max and avg heights. (TODO: Are these needed? Seem to not be used anywhere)
             MapData.averageHeight = MapData.avgMaxHeight[TerrainHelper.avgHeightIdx];
@@ -336,23 +336,6 @@ namespace DaggerfallWorkshop
         /// </summary>
         private void DisposeNativeMemory()
         {
-            if (MapData.nativeArrayList != null)
-            {
-                // Dispose any temp working native array memory.
-                foreach (IDisposable nativeArray in MapData.nativeArrayList)
-                    nativeArray.Dispose();
-                MapData.nativeArrayList = null;
-            }
-
-            // Dispose native array memory allocations now data has been extracted.
-            if (MapData.heightmapData.IsCreated)
-                MapData.heightmapData.Dispose();
-            if (MapData.tilemapData.IsCreated)
-                MapData.tilemapData.Dispose();
-            if (MapData.avgMaxHeight.IsCreated)
-                MapData.avgMaxHeight.Dispose();
-            if (MapData.tileMap.IsCreated)
-                MapData.tileMap.Dispose();
         }
 
         /// <summary>

@@ -217,7 +217,7 @@ namespace DaggerfallWorkshop
                 return false;
 
             int doorIndex;
-            if (interiorDoors.FindLowestOutermostDoor(-1, ref lowestDoorPositionOut, ref doorIndex))
+            if (interiorDoors.FindLowestOutermostDoor(-1, out lowestDoorPositionOut, out doorIndex))
             {
                 lowestDoorNormalOut = interiorDoors.GetDoorNormal(doorIndex);
                 return true;

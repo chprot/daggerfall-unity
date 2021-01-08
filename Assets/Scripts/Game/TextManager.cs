@@ -13,12 +13,11 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Collections.Generic;
-using DaggerfallWorkshop.Utility;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
+//using DaggerfallWorkshop.Utility;
+//using UnityEngine.Localization.Settings;
 using Wenzil.Console;
 using DaggerfallWorkshop.Game.UserInterface;
-using UnityEngine.Localization.Tables;
+//using UnityEngine.Localization.Tables;
 
 namespace DaggerfallWorkshop.Game
 {
@@ -47,7 +46,7 @@ namespace DaggerfallWorkshop.Game
         public string tableCopyTargetRSCStrings = null;
         public string tableCopyTargetBOKStrings = null;
 
-        Dictionary<string, Table> textDatabases = new Dictionary<string, Table>();
+        //Dictionary<string, Table> textDatabases = new Dictionary<string, Table>();
         Dictionary<string, string[]> cachedLocalizedTextLists = new Dictionary<string, string[]>();
         Dictionary<string, DaggerfallFont> localizedFonts = new Dictionary<string, DaggerfallFont>();
 
@@ -93,6 +92,12 @@ namespace DaggerfallWorkshop.Game
 
         #region Localized Fonts
 
+        // Add Locale stub for vita since it doesn't have UnityEngine.Localization in Unity 2017.4.2f2
+        public class Locale
+        {
+            public string name { get { return "en-us"; } }
+        }
+
         /// <summary>
         /// Register a DaggerfallFont replacement to be used for specified locale.
         /// If this font name and locale replacement has already been registered, it will be replaced by this font.
@@ -135,6 +140,7 @@ namespace DaggerfallWorkshop.Game
         /// <returns>True if font of this name has been registered in current locale.</returns>
         public bool HasLocalizedFont(DaggerfallFont.FontName fontName)
         {
+            /*
             Locale selectedLocale = null;
             var op = LocalizationSettings.SelectedLocaleAsync;
             if (op.IsDone)
@@ -143,6 +149,8 @@ namespace DaggerfallWorkshop.Game
                 op.Completed += (o) => selectedLocale = o.Result;
 
             return (selectedLocale != null) ? localizedFonts.ContainsKey(GetLocaleFontKey(selectedLocale, fontName)) : false;
+            */
+            return false;
         }
 
         /// <summary>
@@ -153,6 +161,7 @@ namespace DaggerfallWorkshop.Game
         /// <returns>DaggerfallFont object if registered, otherwise null.</returns>
         public DaggerfallFont GetLocalizedFont(Locale locale, DaggerfallFont.FontName fontName)
         {
+            /*
             if (locale == null)
                 return null;
 
@@ -160,6 +169,8 @@ namespace DaggerfallWorkshop.Game
             if (localizedFonts.TryGetValue(GetLocaleFontKey(locale, fontName), out font))
                 return font;
 
+            return null;
+            */
             return null;
         }
 
@@ -170,6 +181,7 @@ namespace DaggerfallWorkshop.Game
         /// <returns></returns>
         public DaggerfallFont GetLocalizedFont(DaggerfallFont.FontName fontName)
         {
+            /*
             Locale selectedLocale = null;
             var op = LocalizationSettings.SelectedLocaleAsync;
             if (op.IsDone)
@@ -178,6 +190,8 @@ namespace DaggerfallWorkshop.Game
                 op.Completed += (o) => selectedLocale = o.Result;
 
             return (selectedLocale != null) ? GetLocalizedFont(selectedLocale, fontName) : null;
+            */
+            return null;
         }
 
         private string GetLocaleFontKey(Locale locale, DaggerfallFont.FontName fontName)
@@ -196,7 +210,8 @@ namespace DaggerfallWorkshop.Game
         /// <returns>True if database was enumerated.</returns>
         public bool HasDatabase(string databaseName)
         {
-            return textDatabases.ContainsKey(databaseName);
+            //return textDatabases.ContainsKey(databaseName);
+            return false;
         }
 
         /// <summary>
@@ -207,10 +222,13 @@ namespace DaggerfallWorkshop.Game
         /// <returns>True if both database and text key enumerated.</returns>
         public bool HasText(string databaseName, string key)
         {
+            /*
             if (!HasDatabase(databaseName))
                 return false;
 
             return textDatabases[databaseName].HasValue(key);
+            */
+            return false;
         }
 
         /// <summary>
@@ -221,11 +239,14 @@ namespace DaggerfallWorkshop.Game
         /// <returns>Text if found, otherwise return an error string instead.</returns>
         public string GetText(string databaseName, string key)
         {
+            /*
             // Show an error if text not found
             if (!HasText(databaseName, key))
                 return "<TextError-NotFound>";
 
             return textDatabases[databaseName].GetValue(textColumn, key);
+            */
+            return "<TextError-NotFound>";
         }
 
         /// <summary>
@@ -451,6 +472,7 @@ namespace DaggerfallWorkshop.Game
         /// </summary>
         protected void EnumerateTextDatabases()
         {
+            /*
             // Get all text files in target path
             Debug.Log("TextManager enumerating text databases.");
             string path = Path.Combine(Application.streamingAssetsPath, textFolderName);
@@ -479,6 +501,7 @@ namespace DaggerfallWorkshop.Game
                     continue;
                 }
             }
+            */
         }
 
         #endregion
@@ -535,6 +558,7 @@ namespace DaggerfallWorkshop.Game
 
             public static string Execute(params string[] args)
             {
+                /*
                 int index = 0;
                 string output = string.Empty;
                 var locales = LocalizationSettings.AvailableLocales.Locales;
@@ -548,6 +572,8 @@ namespace DaggerfallWorkshop.Game
                 output += string.Format("Current locale: {0}", LocalizationSettings.SelectedLocale.name);
 
                 return output;
+                */
+                return "Not implemented";
             }
         }
 
@@ -559,6 +585,7 @@ namespace DaggerfallWorkshop.Game
 
             public static string Execute(params string[] args)
             {
+                /*
                 if (args == null || args.Length < 1)
                     return string.Format("Usage: {0}", usage);
 
@@ -577,6 +604,8 @@ namespace DaggerfallWorkshop.Game
                 Locale locale = LocalizationSettings.AvailableLocales.Locales[index];
                 LocalizationSettings.SelectedLocale = locale;
                 return string.Format("Set locale to '{0}'", locale.name);
+                */
+                return "Not implemented";
             }
         }
 
@@ -588,6 +617,7 @@ namespace DaggerfallWorkshop.Game
 
             public static string Execute(params string[] args)
             {
+                /*
                 if (args == null || args.Length < 1)
                     return string.Format("Usage: {0}", usage);
 
@@ -605,6 +635,8 @@ namespace DaggerfallWorkshop.Game
                 {
                     return usage;
                 }
+                */
+                return "Not implemented";
             }
         }
 

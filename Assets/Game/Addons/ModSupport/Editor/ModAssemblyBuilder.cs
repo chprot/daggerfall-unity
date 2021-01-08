@@ -30,7 +30,7 @@ namespace DaggerfallWorkshop.Game.Utility
         {
             var assemblyBuilder = new AssemblyBuilder(assemblyPath, scriptPaths)
             {
-                referencesOptions = ReferencesOptions.UseEngineModules,
+                //referencesOptions = ReferencesOptions.UseEngineModules,
                 buildTargetGroup = BuildTargetGroup.Standalone,
                 additionalReferences = GetAdditionalReferences()
             };
@@ -66,7 +66,7 @@ namespace DaggerfallWorkshop.Game.Utility
         {
             var references = new List<string>();
 
-            foreach (Assembly assembly in CompilationPipeline.GetAssemblies(AssembliesType.PlayerWithoutTestAssemblies))
+            foreach (Assembly assembly in CompilationPipeline.GetAssemblies())
                 references.Add(assembly.outputPath);
 
             return references.ToArray();

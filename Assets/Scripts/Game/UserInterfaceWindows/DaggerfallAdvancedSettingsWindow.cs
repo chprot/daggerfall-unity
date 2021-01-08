@@ -462,7 +462,7 @@ namespace DaggerfallWorkshop.Game.UserInterfaceWindows
                     Screen.SetResolution(
                         selectedResolution.width,
                         selectedResolution.height,
-                        FullScreenMode.ExclusiveFullScreen);
+                        true /*fullscreen*/);
                 }
                 else
                 {

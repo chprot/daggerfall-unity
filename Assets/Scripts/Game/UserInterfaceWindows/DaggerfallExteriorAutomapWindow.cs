@@ -852,7 +852,7 @@ namespace DaggerfallWorkshop.Game.UserInterfaceWindows
                 exteriorAutomap.buildingNameplates[i].textLabel.ToolTip.BackgroundColor = DaggerfallUnity.Settings.ToolTipBackgroundColor;
                 exteriorAutomap.buildingNameplates[i].textLabel.ToolTip.TextColor = DaggerfallUnity.Settings.ToolTipTextColor;                
                 exteriorAutomap.buildingNameplates[i].textLabel.ToolTip.Parent = dummyPanelAutomap; // use dummyPanelAutomap (the render panel in native daggerfall resolution)
-                exteriorAutomap.buildingNameplates[i].textLabel.ToolTip.Position /= dummyPanelAutomap.LocalScale;                
+                exteriorAutomap.buildingNameplates[i].textLabel.ToolTip.Position.Scale(new Vector2(1f/dummyPanelAutomap.LocalScale.x, 1f/dummyPanelAutomap.LocalScale.y)); // remove localscale factor by scaling with inverse localscale x and y                
                 exteriorAutomap.buildingNameplates[i].textLabel.ToolTipText = exteriorAutomap.buildingNameplates[i].name;
                 panelRenderAutomap.Components.Add(exteriorAutomap.buildingNameplates[i].textLabel);
 

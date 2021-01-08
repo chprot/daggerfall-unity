@@ -628,7 +628,7 @@ namespace DaggerfallWorkshop.Game.Entity
                 {
                     Vector3 lowestDoorPos = new Vector3();
                     Vector3 lowestDoorNormal = new Vector3();
-                    if (enterExit.Interior.FindLowestOuterInteriorDoor(ref lowestDoorPos, ref lowestDoorNormal))
+                    if (enterExit.Interior.FindLowestOuterInteriorDoor(out lowestDoorPos, out lowestDoorNormal))
                     {
                         lowestDoorPos += lowestDoorNormal * (GameManager.Instance.PlayerController.radius + 0.1f);
                         int guardCount = UnityEngine.Random.Range(2, 6);

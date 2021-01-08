@@ -180,7 +180,7 @@ namespace DaggerfallWorkshop.Game.Utility
                 Screen.SetResolution(
                     DaggerfallUnity.Settings.ResolutionWidth,
                     DaggerfallUnity.Settings.ResolutionHeight,
-                    FullScreenMode.ExclusiveFullScreen);
+                    true /*fullscreen*/);
             }
             else
             {

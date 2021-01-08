@@ -1390,13 +1390,13 @@ namespace DaggerfallWorkshop.Game
                 list.Add((KeyCode)k);
 
             // Remove keys that require a 'shift'
-            list.Remove(KeyCode.Tilde);
+            //list.Remove(KeyCode.Tilde);
             list.Remove(KeyCode.None);
             list.Remove(KeyCode.Exclaim);
             list.Remove(KeyCode.At);
             list.Remove(KeyCode.Hash);
             list.Remove(KeyCode.Dollar);
-            list.Remove(KeyCode.Percent);
+            //list.Remove(KeyCode.Percent);
             list.Remove(KeyCode.Caret);
             list.Remove(KeyCode.Ampersand);
             list.Remove(KeyCode.Asterisk);
@@ -1404,10 +1404,10 @@ namespace DaggerfallWorkshop.Game
             list.Remove(KeyCode.RightParen);
             list.Remove(KeyCode.Underscore);
             list.Remove(KeyCode.Plus);
-            list.Remove(KeyCode.Pipe);
+            //list.Remove(KeyCode.Pipe);
 
-            list.Remove(KeyCode.LeftCurlyBracket);
-            list.Remove(KeyCode.RightCurlyBracket);
+            //list.Remove(KeyCode.LeftCurlyBracket);
+            //list.Remove(KeyCode.RightCurlyBracket);
             list.Remove(KeyCode.Colon);
             list.Remove(KeyCode.DoubleQuote);
 

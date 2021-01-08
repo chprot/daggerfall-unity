@@ -3,6 +3,7 @@ using UnityEngine.PostProcessing;
 
 namespace UnityEditor.PostProcessing
 {
+    /*
     [CustomPropertyDrawer(typeof(UnityEngine.MinAttribute))]
     sealed class MinDrawer : PropertyDrawer
     {
@@ -26,4 +27,5 @@ namespace UnityEditor.PostProcessing
             }
         }
     }
+    */
 }

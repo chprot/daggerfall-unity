@@ -15,9 +15,9 @@ using System.Collections.Generic;
 using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Localization;
 using DaggerfallWorkshop.Utility;
-using UnityEditor.Localization;
-using UnityEngine.Localization.Tables;
-using UnityEditor.Localization.UI;
+//using UnityEditor.Localization;
+//using UnityEngine.Localization.Tables;
+//using UnityEditor.Localization.UI;
 
 namespace DaggerfallWorkshop
 {
@@ -80,8 +80,8 @@ namespace DaggerfallWorkshop
             EditorGUILayout.Space();
             if (GUILayout.Button("Copy All"))
             {
-                DaggerfallStringTableImporter.CopyInternalStringTable(tableCopyTargetInternalStrings.stringValue, tableCopyOverwriteTargetStringTables.boolValue);
-                DaggerfallStringTableImporter.CopyTextRSCToStringTable(tableCopyTargetRSCStrings.stringValue, tableCopyOverwriteTargetStringTables.boolValue);
+                //DaggerfallStringTableImporter.CopyInternalStringTable(tableCopyTargetInternalStrings.stringValue, tableCopyOverwriteTargetStringTables.boolValue);
+                //DaggerfallStringTableImporter.CopyTextRSCToStringTable(tableCopyTargetRSCStrings.stringValue, tableCopyOverwriteTargetStringTables.boolValue);
                 //DaggerfallStringTableImporter.CopyTextBOKToStringTable(tableCopyTargetBOKStrings.stringValue, tableCopyOverwriteTargetStringTables.boolValue);
             }
         }

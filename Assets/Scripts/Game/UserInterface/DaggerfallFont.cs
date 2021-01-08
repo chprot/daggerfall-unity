@@ -468,22 +468,22 @@ namespace DaggerfallWorkshop.Game.UserInterface
 
             // Create font info
             SDFFontInfo fi = new SDFFontInfo();
-            fi.pointSize = tmpFont.faceInfo.pointSize;
+            fi.pointSize = tmpFont.fontInfo.PointSize;
             fi.atlas = tmpFont.atlas;
-            fi.baseline = tmpFont.faceInfo.baseline;
+            fi.baseline = tmpFont.fontInfo.Baseline;
             fi.glyphs = new Dictionary<int, SDFGlyphInfo>();
 
             // Cache glyph info
             float atlasWidth = tmpFont.atlas.width;
             float atlasHeight = tmpFont.atlas.height;
-            foreach (var kvp in tmpFont.characterLookupTable)
+            foreach (var kvp in tmpFont.characterDictionary)
             {
                 // Compose glyph rect inside of atlas
-                TMP_Character character = kvp.Value;
-                float atlasGlyphX = character.glyph.glyphRect.x / atlasWidth;
-                float atlasGlyphY = character.glyph.glyphRect.y / atlasHeight;
-                float atlasGlyphWidth = character.glyph.glyphRect.width / atlasWidth;
-                float atlasGlyphHeight = character.glyph.glyphRect.height / atlasHeight;
+                TMP_Glyph glyph = kvp.Value;
+                float atlasGlyphX = glyph.x / atlasWidth;
+                float atlasGlyphY = glyph.y / atlasHeight;
+                float atlasGlyphWidth = glyph.width / atlasWidth;
+                float atlasGlyphHeight = glyph.height / atlasHeight;
                 Rect atlasGlyphRect = new Rect(atlasGlyphX, atlasGlyphY, atlasGlyphWidth, atlasGlyphHeight);
 
                 // Store information about this glyph
@@ -491,9 +491,9 @@ namespace DaggerfallWorkshop.Game.UserInterface
                 {
                     code = (int)kvp.Key,
                     rect = atlasGlyphRect,
-                    offset = new Vector2(character.glyph.metrics.horizontalBearingX, character.glyph.metrics.horizontalBearingY),
-                    size = new Vector2(character.glyph.metrics.width, character.glyph.metrics.height),
-                    advance = character.glyph.metrics.horizontalAdvance,
+                    offset = new Vector2(glyph.xOffset, glyph.yOffset),
+                    size = new Vector2(glyph.width, glyph.height),
+                    advance = glyph.xAdvance,
                 };
                 fi.glyphs.Add((int)kvp.Key, glyphInfo);
             }

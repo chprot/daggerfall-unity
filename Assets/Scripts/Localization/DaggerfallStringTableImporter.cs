@@ -17,11 +17,11 @@ using DaggerfallConnect.Arena2;
 using DaggerfallWorkshop.Game.Questing;
 using DaggerfallWorkshop.Utility;
 using UnityEngine;
-using UnityEngine.Localization.Tables;
+//using UnityEngine.Localization.Tables;
 using DaggerfallWorkshop.Game;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Localization;
+//using UnityEditor.Localization;
 #endif
 
 namespace DaggerfallWorkshop.Localization
@@ -328,7 +328,8 @@ namespace DaggerfallWorkshop.Localization
 
         #region Editor Only Methods
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
+#if false
         // Gets string table from collection name and locale code
         private static StringTable GetSourceStringTable(string source, string locale)
         {

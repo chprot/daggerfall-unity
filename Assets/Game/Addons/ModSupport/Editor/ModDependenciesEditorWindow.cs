@@ -96,7 +96,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                         {
                             using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                             {
-                                dependency.ModIndex = EditorGUILayout.Popup(modName, dependency.ModIndex, availableMods, GUILayout.MinWidth(100));
+                                dependency.ModIndex = EditorGUILayout.Popup(modName.text, dependency.ModIndex, availableMods, GUILayout.MinWidth(100));
                                 if (dependency.ModIndex < availableMods.Length - 1)
                                     dependency.Name = availableMods[dependency.ModIndex];
                                 else
