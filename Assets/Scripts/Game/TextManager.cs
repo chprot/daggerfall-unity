@@ -46,7 +46,7 @@ namespace DaggerfallWorkshop.Game
         public string tableCopyTargetRSCStrings = null;
         public string tableCopyTargetBOKStrings = null;
 
-        //Dictionary<string, Table> textDatabases = new Dictionary<string, Table>();
+        Dictionary<string, Table> textDatabases = new Dictionary<string, Table>();
         Dictionary<string, string[]> cachedLocalizedTextLists = new Dictionary<string, string[]>();
         Dictionary<string, DaggerfallFont> localizedFonts = new Dictionary<string, DaggerfallFont>();
 
@@ -95,7 +95,43 @@ namespace DaggerfallWorkshop.Game
         // Add Locale stub for vita since it doesn't have UnityEngine.Localization in Unity 2017.4.2f2
         public class Locale
         {
-            public string name { get { return "en-us"; } }
+            public string name { get { return "English (en)"; } }
+        }
+
+        public class Table
+        {
+            private Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+
+            public int RowCount { get; }
+
+            public Table(string[] textlines)
+            {
+                foreach (var line in textlines)
+                {
+                    string trimLine = line.Trim();
+                    if (string.IsNullOrEmpty(trimLine) || trimLine[0] == '-')
+                        continue;
+
+                    string[] keyval = trimLine.Split(',');
+                    string key = keyval[0].Trim();
+                    string val = keyval[1].Trim();
+
+                    keyValuePairs.Add(key, val);
+                }
+            }
+
+            public bool HasValue(string key)
+            {
+                return keyValuePairs.ContainsKey(key);
+            }
+
+            public string GetValue(string textColumn, string key)
+            {
+                string result;
+                if (keyValuePairs.TryGetValue(key, out result))
+                    return result;
+                return "<TextError-NotFound>";
+            }
         }
 
         /// <summary>
@@ -210,8 +246,7 @@ namespace DaggerfallWorkshop.Game
         /// <returns>True if database was enumerated.</returns>
         public bool HasDatabase(string databaseName)
         {
-            //return textDatabases.ContainsKey(databaseName);
-            return false;
+            return textDatabases.ContainsKey(databaseName);
         }
 
         /// <summary>
@@ -222,13 +257,10 @@ namespace DaggerfallWorkshop.Game
         /// <returns>True if both database and text key enumerated.</returns>
         public bool HasText(string databaseName, string key)
         {
-            /*
             if (!HasDatabase(databaseName))
                 return false;
 
             return textDatabases[databaseName].HasValue(key);
-            */
-            return false;
         }
 
         /// <summary>
@@ -239,14 +271,11 @@ namespace DaggerfallWorkshop.Game
         /// <returns>Text if found, otherwise return an error string instead.</returns>
         public string GetText(string databaseName, string key)
         {
-            /*
             // Show an error if text not found
             if (!HasText(databaseName, key))
                 return "<TextError-NotFound>";
 
             return textDatabases[databaseName].GetValue(textColumn, key);
-            */
-            return "<TextError-NotFound>";
         }
 
         /// <summary>
@@ -472,7 +501,6 @@ namespace DaggerfallWorkshop.Game
         /// </summary>
         protected void EnumerateTextDatabases()
         {
-            /*
             // Get all text files in target path
             Debug.Log("TextManager enumerating text databases.");
             string path = Path.Combine(Application.streamingAssetsPath, textFolderName);
@@ -501,7 +529,6 @@ namespace DaggerfallWorkshop.Game
                     continue;
                 }
             }
-            */
         }
 
         #endregion
