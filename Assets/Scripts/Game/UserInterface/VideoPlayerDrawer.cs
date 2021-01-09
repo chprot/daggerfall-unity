@@ -12,6 +12,8 @@
 using UnityEngine;
 using UnityEngine.Video;
 
+using UnityEngine.PSVita;
+
 namespace DaggerfallWorkshop.Game.UserInterface
 {
     /// <summary>
@@ -19,7 +21,10 @@ namespace DaggerfallWorkshop.Game.UserInterface
     /// </summary>
     public class VideoPlayerDrawer : BaseScreenComponent
     {
-        readonly VideoPlayer videoPlayer;
+        //readonly VideoPlayer videoPlayer;
+        public RenderTexture renderTexture;
+        private bool isPlaying;
+        private string videoPath;
 
         bool isLoading;
 
@@ -28,7 +33,8 @@ namespace DaggerfallWorkshop.Game.UserInterface
         /// </summary>
         public bool IsPlaying
         {
-            get { return videoPlayer.isPlaying || isLoading; }
+            //get { return videoPlayer.isPlaying || isLoading; }
+            get { return isPlaying || isLoading; }
         }
 
         /// <summary>
@@ -38,6 +44,8 @@ namespace DaggerfallWorkshop.Game.UserInterface
 
         private VideoPlayerDrawer()
         {
+            PSVitaVideoPlayer.Init(renderTexture);
+            /*
             videoPlayer = DaggerfallUI.Instance.gameObject.GetComponent<VideoPlayer>();
             if (!videoPlayer)
             {
@@ -48,8 +56,10 @@ namespace DaggerfallWorkshop.Game.UserInterface
             }
 
             ScaleMode = DaggerfallUnity.Settings.FreeScaling ? ScaleMode.StretchToFill : ScaleMode.ScaleToFit;
+            */
         }
 
+        /*
         /// <summary>
         /// A drawer for a clip with sound and video data.
         /// </summary>
@@ -58,6 +68,7 @@ namespace DaggerfallWorkshop.Game.UserInterface
         {
             videoPlayer.clip = videoClip;
         }
+        */
 
         /// <summary>
         /// A drawer for streamed sound and video data.
@@ -65,17 +76,26 @@ namespace DaggerfallWorkshop.Game.UserInterface
         public VideoPlayerDrawer(string url)
             : this()
         {
-            videoPlayer.url = url;
+            //videoPlayer.url = url;
+            videoPath = url;
         }
 
         public override void Draw()
         {
+            /*
             if (!videoPlayer.isPlaying)
                 return;
 
             base.Draw();
 
             GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), videoPlayer.texture, ScaleMode);
+            */
+            if (!isPlaying)
+                return;
+
+            base.Draw();
+
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), renderTexture, ScaleMode);
         }
 
         /// <summary>
@@ -83,6 +103,7 @@ namespace DaggerfallWorkshop.Game.UserInterface
         /// </summary>
         public void Play()
         {
+            /*
             isLoading = true;
             videoPlayer.Prepare();
             videoPlayer.prepareCompleted += (VideoPlayer videoPlayer) =>
@@ -90,6 +111,10 @@ namespace DaggerfallWorkshop.Game.UserInterface
                 isLoading = false;
                 videoPlayer.Play();
             };
+            */
+            isLoading = true;
+            PSVitaVideoPlayer.Play(videoPath, PSVitaVideoPlayer.Looping.None, PSVitaVideoPlayer.Mode.RenderToTexture);
+            isPlaying = true;
         }
 
         /// <summary>
@@ -97,7 +122,9 @@ namespace DaggerfallWorkshop.Game.UserInterface
         /// </summary>
         public void Stop()
         {
-            videoPlayer.Stop();
+            //videoPlayer.Stop();
+            PSVitaVideoPlayer.Stop();
+            isPlaying = false;
         }
     }
 }

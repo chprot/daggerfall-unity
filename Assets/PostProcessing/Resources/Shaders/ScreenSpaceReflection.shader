@@ -212,7 +212,15 @@ Shader "Hidden/Post FX/Screen Space Reflection"
 
             if (wasHit)
             {
-                confidence = Pow2(1.0 - max(2.0*float(stepCount) / float(maxSteps) - 1.0, 0.0));
+                confidence = pow
+                (
+                    1.0 - max
+                    (
+                        float(2.0*float(stepCount) / float(maxSteps) - 1.0),
+                        float(0.0)
+                    ),
+                    2.0
+                );
                 confidence *= clamp(((_MaxRayTraceDistance - rayDist) / _FadeDistance), 0.0, 1.0);
 
                 // Fake fresnel fade
@@ -833,7 +841,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragRaytrace1
 
@@ -848,7 +856,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragComposite
             ENDCG
@@ -858,7 +866,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragGBlur
             ENDCG
@@ -868,7 +876,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragCompositeSSR
             ENDCG
@@ -878,7 +886,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragMin
             ENDCG
@@ -888,7 +896,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragResolveHitPoints
             ENDCG
@@ -898,7 +906,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragBilatKeyPack
             ENDCG
@@ -908,7 +916,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragDepthToCSZ
             ENDCG
@@ -918,7 +926,7 @@ Shader "Hidden/Post FX/Screen Space Reflection"
         Pass
         {
             CGPROGRAM
-                #pragma exclude_renderers gles xbox360 ps3
+                #pragma exclude_renderers gles xbox360 ps3 psp2
                 #pragma vertex vert
                 #pragma fragment fragFilterSharpReflections
             ENDCG

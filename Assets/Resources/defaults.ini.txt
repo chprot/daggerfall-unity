@@ -1,10 +1,10 @@
 [Daggerfall]
-MyDaggerfallPath=
-MyDaggerfallUnitySavePath=
+MyDaggerfallPath=ux0:data/daggerfall/DaggerfallGameFiles
+MyDaggerfallUnitySavePath=ux0:data/daggerfall/saves
 
 [Video]
-ResolutionWidth=1280
-ResolutionHeight=720
+ResolutionWidth=960
+ResolutionHeight=544
 RetroRenderingMode=0
 PostProcessingInRetroMode=0
 UseMipMapsInRetroMode=False

@@ -596,7 +596,7 @@ PlayerSettings:
   psp2PackagedResourcesPath: 
   psp2SaveDataQuota: 10240
   psp2ParentalLevel: 1
-  psp2ShortTitle: Not Set
+  psp2ShortTitle: Daggerfall
   psp2ContentID: IV0000-ABCD12345_00-0123456789ABCDEF
   psp2Category: 0
   psp2MasterVersion: 01.00
@@ -632,6 +632,7 @@ PlayerSettings:
     iPhone: 2
   scriptingBackend:
     Android: 0
+    PSP2: 1
     Standalone: 0
     WP8: 2
     WebGL: 1

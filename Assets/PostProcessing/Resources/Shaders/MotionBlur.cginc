@@ -301,7 +301,7 @@ VaryingsDefault VertFrameCompress(AttributesDefault v)
     return o;
 }
 
-#if !SHADER_API_GLES
+#if !defined(SHADER_API_GLES) && !defined(SHADER_API_PSP2)
 
 // MRT output struct for the compressor
 struct CompressorOutput

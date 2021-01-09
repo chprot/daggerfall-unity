@@ -122,7 +122,8 @@ Shader "Hidden/Post FX/Uber Shader"
                 float2 end = uv - coords * dot(coords, coords) * _ChromaticAberration_Amount;
 
                 float2 diff = end - uv;
-                int samples = clamp(int(length(_MainTex_TexelSize.zw * diff / 2.0)), 3, 16);
+                //int samples = clamp(int(length(_MainTex_TexelSize.zw * diff / 2.0)), 3, 16);
+                int samples = int(clamp(length(_MainTex_TexelSize.zw * diff / 2.0), 3.0, 16.0));
                 float2 delta = diff / samples;
                 float2 pos = uv;
                 half3 sum = (0.0).xxx, filterSum = (0.0).xxx;

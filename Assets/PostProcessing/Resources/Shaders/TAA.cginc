@@ -2,7 +2,7 @@
 #define __TAA__
 
 #pragma only_renderers ps4 xboxone d3d11 d3d9 xbox360 opengl glcore
-#pragma exclude_renderers gles
+#pragma exclude_renderers gles psp2
 
 #include "UnityCG.cginc"
 #include "Common.cginc"

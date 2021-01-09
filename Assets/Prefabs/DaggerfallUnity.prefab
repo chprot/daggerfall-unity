@@ -5,14 +5,14 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 400000}
-  - 114: {fileID: 11400008}
-  - 114: {fileID: 11400010}
-  - 114: {fileID: 11400002}
-  - 114: {fileID: 11400004}
-  - 114: {fileID: 11400000}
+  - component: {fileID: 400000}
+  - component: {fileID: 11400008}
+  - component: {fileID: 11400010}
+  - component: {fileID: 11400002}
+  - component: {fileID: 11400004}
+  - component: {fileID: 11400000}
   m_Layer: 0
   m_Name: DaggerfallUnity
   m_TagString: Untagged
@@ -29,10 +29,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 743257e53050c9344ab2b21bdbd5d8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Arena2Path: D:\Program Files (x86)\Bethesda Softworks\Daggerfall\arena2
+  Arena2Path: D:\downloads\DaggerfallGameFiles\arena2
   ModelImporter_ModelID: 456
   BlockImporter_BlockName: MAGEAA01.RMB
   CityImporter_CityName: Daggerfall/Daggerfall
+  Experimental_CityLayoutName: Daggerfall/Aldcart
   DungeonImporter_DungeonName: Daggerfall/Privateer's Hold
   Option_SetStaticFlags: 1
   Option_CombineRMB: 1
@@ -56,7 +57,6 @@ MonoBehaviour:
   Option_AddMeshColliders: 1
   Option_AddNavmeshAgents: 1
   Option_RMBGroundPlane: 1
-  Option_CloseCityGates: 0
   Option_ImportLightPrefabs: 1
   Option_CityLightPrefab: {fileID: 10897134, guid: c05f4b58f3973de41a32c50d46f01d99,
     type: 2}
@@ -73,11 +73,15 @@ MonoBehaviour:
     type: 2}
   Option_DungeonBlockPrefab: {fileID: 11498520, guid: 27a51a887fcbfdf48bf6d8c3e30c8c76,
     type: 2}
+  Option_MobileNPCPrefab: {fileID: 0}
   Option_ImportEnemyPrefabs: 1
   Option_EnemyPrefab: {fileID: 11495432, guid: bb371757861765d4e8cd34d3dde6f640, type: 2}
   Option_ImportRandomTreasure: 1
   Option_LootContainerPrefab: {fileID: 11448000, guid: e44e9b9711fff7a4a8f1331e5f18f151,
     type: 2}
+  Option_DungeonWaterPrefab: {fileID: 0}
+  Option_DungeonWaterPlaneSize: {x: 1, y: 1, z: 1}
+  Option_DungeonWaterPlaneOffset: {x: 0, y: 0, z: 0}
   Option_AutomateTextureSwaps: 1
   Option_AutomateSky: 1
   Option_AutomateCityWindows: 1
@@ -112,6 +116,7 @@ MonoBehaviour:
     Hour: 12
     Minute: 0
     Second: 0
+  RaiseTimeInSeconds: 0
   TimeScale: 12
   ShowDebugString: 0
 --- !u!114 &11400008
@@ -127,14 +132,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AtlasTextures: 1
   CompressSkyTextures: 0
+  CompressModdedTextures: 1
   Sharpen: 0
   GenerateNormals: 0
   NormalTextureStrength: 0.2
   MainFilterMode: 0
   SkyFilterMode: 0
   MipMaps: 1
+  ReadableTextures: 0
   AlphaTextureFormat: 2
-  NonAlphaTextureFormat: 1
   DayWindowColor: {r: 0.34901962, g: 0.6039216, b: 0.69803923, a: 1}
   NightWindowColor: {r: 1, g: 0.7137255, b: 0.21960784, a: 1}
   FogWindowColor: {r: 0.45882353, g: 0.45882353, b: 0.45882353, a: 1}

@@ -467,7 +467,7 @@ VaryingsDefault VertCompositionGBuffer(AttributesDefault v)
     return o;
 }
 
-#if !SHADER_API_GLES // excluding the MRT pass under GLES2
+#if !defined(SHADER_API_GLES) && !defined(SHADER_API_PSP2) // excluding the MRT pass under GLES2
 
 struct CompositionOutput
 {

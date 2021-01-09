@@ -69,7 +69,7 @@ half3 FilmicTonemap(half3 aces)
     half hueWeight;
     {
         //hueWeight = cubic_basis_shaper(centeredHue, RRT_RED_WIDTH);
-        hueWeight = Pow2(smoothstep(0.0, 1.0, 1.0 - abs(2.0 * centeredHue / RRT_RED_WIDTH)));
+        hueWeight = pow(smoothstep(0.0, 1.0, 1.0 - abs(2.0 * centeredHue / RRT_RED_WIDTH)), 2.0);
     }
 
     aces.r += hueWeight * saturation * (RRT_RED_PIVOT - aces.r) * (1.0 - RRT_RED_SCALE);

@@ -1,4 +1,4 @@
-﻿Shader "Daggerfall/RetroPalettization"
+Shader "Daggerfall/RetroPalettization"
 {
 	Properties
 	{
@@ -45,7 +45,7 @@
 			
 			sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
-            sampler3D _Lut;
+            //sampler3D _Lut;
             
 	        fixed4 frag (v2f i) : SV_Target
 	        {
@@ -62,7 +62,7 @@
                 // Explore color space!
                 //fixed4 color = fixed4(i.texcoord, frac(_Time.x), 1.0);
                 
-                return fixed4(tex3D(_Lut, color.rgb).rgb, color.a);
+                //return fixed4(tex3D(_Lut, color.rgb).rgb, color.a);
             }
 			ENDCG
 		}
