@@ -104,9 +104,10 @@ namespace DaggerfallWorkshop.Game
 
             public int RowCount { get; }
 
-            public Table(string[] textlines)
+            public static Table FromStreamingAssetText(string[] textlines)
             {
-                foreach (var line in textlines)
+                Table table = new Table();
+                foreach (string line in textlines)
                 {
                     string trimLine = line.Trim();
                     if (string.IsNullOrEmpty(trimLine) || trimLine[0] == '-')
@@ -116,8 +117,87 @@ namespace DaggerfallWorkshop.Game
                     string key = keyval[0].Trim();
                     string val = keyval[1].Trim();
 
-                    keyValuePairs.Add(key, val);
+                    table.keyValuePairs.Add(key, val);
                 }
+                return table;
+            }
+
+            public static Table FromLocalizationStringTable(string[] keyTextLines, string[] localizedTextLines)
+            {
+                const string keyDelim = "m_Key:";
+                const string metadataDelim = "m_Metadata:";
+                const string localizedDelim = "m_Localized:";
+
+                Debug.Log(keyDelim);
+                Debug.Log(metadataDelim);
+                Debug.Log(localizedDelim);
+
+                // Parse all keys from text
+                List<string> keys = new List<string>();
+                bool readingKey = false;
+                string key = "";
+                foreach (string line in keyTextLines)
+                {
+                    string trimLine = line.Trim();
+                    if (!readingKey) // find next key
+                    {
+                        if (!trimLine.StartsWith(keyDelim)) // skip until key delimiter found
+                            continue;
+
+                        key = trimLine.Remove(0, keyDelim.Length).Trim();
+                        readingKey = true;
+                    }
+                    else
+                    {
+                        if (!trimLine.StartsWith(metadataDelim))
+                        {
+                            key += ' ' + trimLine;
+                        }
+                        else
+                        {
+                            readingKey = false;
+                            keys.Add(key);
+                        }
+                    }
+                }
+
+                // Parse all localized strings from text
+                List<String> values = new List<string>();
+                bool readingValue = false;
+                string value = "";
+                foreach (string line in localizedTextLines)
+                {
+                    string trimLine = line.Trim();
+                    if (!readingValue) // find next key
+                    {
+                        if (!trimLine.StartsWith(localizedDelim)) // skip until key delimiter found
+                            continue;
+
+                        value = trimLine.Remove(0, localizedDelim.Length).Trim();
+                        readingValue = true;
+                    }
+                    else
+                    {
+                        if (!trimLine.StartsWith(metadataDelim))
+                        {
+                            value += ' ' + trimLine;
+                        }
+                        else
+                        {
+                            readingValue = false;
+                            values.Add(value.Trim('\'').Replace("''", "'"));
+                        }
+                    }
+                }
+
+                if (keys.Count != values.Count)
+                    throw new Exception("Localization string table has a different number of keys and values, they should be matched 1 to 1");
+
+                Table table = new Table();
+                for (int i = 0; i < keys.Count; i++)
+                    table.keyValuePairs.Add(keys[i], values[i]);
+                
+                return table;
             }
 
             public bool HasValue(string key)
@@ -512,7 +592,7 @@ namespace DaggerfallWorkshop.Game
                 try
                 {
                     // Create table from text file
-                    Table table = new Table(File.ReadAllLines(file));
+                    Table table = Table.FromStreamingAssetText(File.ReadAllLines(file));
 
                     // Get database key from filename
                     string databaseName = Path.GetFileNameWithoutExtension(file);
@@ -528,6 +608,41 @@ namespace DaggerfallWorkshop.Game
                     Debug.LogFormat("TextManager unable to parse text database table {0} with exception message {1}", file, ex.Message);
                     continue;
                 }
+            }
+
+            EnumerateLocalizationTextDatabases();
+        }
+        
+        protected void EnumerateLocalizationTextDatabases()
+        {
+            // Get all text files in target path
+            Debug.Log("TextManager enumerating text databases.");
+            string path = Path.Combine(Application.streamingAssetsPath, textFolderName);
+            
+            try
+            {
+                // Create table from localization asset text files
+                Table internalStringsTable = Table.FromLocalizationStringTable(
+                    File.ReadAllLines(Path.Combine(path,"Internal_Strings Shared Data.asset")),
+                    File.ReadAllLines(Path.Combine(path, "Internal_Strings_en.asset")));
+                Table internalRscTable = Table.FromLocalizationStringTable(
+                    File.ReadAllLines(Path.Combine(path, "Internal_RSC Shared Data.asset")),
+                    File.ReadAllLines(Path.Combine(path, "Internal_RSC_en.asset")));
+
+                if (HasDatabase(defaultInternalStringsCollectionName))
+                    throw new Exception(string.Format("TextManager database name {0} already exists.", defaultInternalStringsCollectionName));
+                if (HasDatabase(defaultInternalRSCCollectionName))
+                    throw new Exception(string.Format("TextManager database name {0} already exists.", defaultInternalRSCCollectionName));
+
+                // Assign databases to collection
+                textDatabases.Add(defaultInternalStringsCollectionName, internalStringsTable);
+                Debug.LogFormat("TextManager read text database table {0} with {1} rows", defaultInternalStringsCollectionName, internalStringsTable.RowCount);
+                textDatabases.Add(defaultInternalRSCCollectionName, internalRscTable);
+                Debug.LogFormat("TextManager read text database table {0} with {1} rows", defaultInternalRSCCollectionName, internalRscTable.RowCount);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogFormat("TextManager unable to parse localized text database tables with exception message {0}", ex.Message);
             }
         }
 

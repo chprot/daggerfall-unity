@@ -289,6 +289,18 @@ namespace DaggerfallWorkshop.Utility
 
             return false;
             */
+            string tableName = string.Empty;
+            if (string.Equals(TextManager.Instance.RuntimeInternalStrings, collection))
+                tableName = TextManager.defaultInternalStringsCollectionName;
+            else if (string.Equals(TextManager.Instance.RuntimeRSCStrings, collection))
+                tableName = TextManager.defaultInternalRSCCollectionName;
+
+            if (TextManager.Instance.HasText(tableName, id))
+            {
+                result = TextManager.Instance.GetText(tableName, id);
+                return true;
+            }
+
             result = string.Empty;
             return false;
         }

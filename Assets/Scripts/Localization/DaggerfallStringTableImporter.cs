@@ -329,7 +329,7 @@ namespace DaggerfallWorkshop.Localization
         #region Editor Only Methods
 
 //#if UNITY_EDITOR
-#if false
+#if false // Localization not available in unity 2017.4 editor
         // Gets string table from collection name and locale code
         private static StringTable GetSourceStringTable(string source, string locale)
         {
