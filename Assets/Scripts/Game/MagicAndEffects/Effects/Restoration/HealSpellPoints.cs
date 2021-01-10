@@ -29,8 +29,8 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.AllowedCraftingStations = MagicCraftingStations.PotionMaker;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("heal");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("spellPoints");
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("heal"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("spellPoints"); } }
 
         public override void SetPotionProperties()
         {

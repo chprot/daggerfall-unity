@@ -1,4 +1,4 @@
-﻿using Mono.CSharp;
+using Mono.CSharp;
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
@@ -10,6 +10,7 @@ using System.Text;
 
 namespace CSharpCompiler
 {
+#if false
     //
     // Summary:
     //     Defines an interface for invoking compilation of source code or a CodeDOM tree
@@ -338,4 +339,5 @@ namespace CSharpCompiler
             return settings;
         }
     }
+#endif
 }

@@ -200,7 +200,7 @@ namespace DaggerfallWorkshop.Game.Utility
                     if (Mathf.Abs(size.y - 2f) > 0.1f)
                         poolItem.npc.Asset.transform.Translate(0, (size.y - 2f) * 0.52f, 0);
 
-                    OnMobileNPCEnable?.Invoke(poolItem);
+                    if (OnMobileNPCEnable != null) OnMobileNPCEnable.Invoke(poolItem);
                 }
 
                 // Mark for recycling
@@ -221,7 +221,7 @@ namespace DaggerfallWorkshop.Game.Utility
                     if (poolItem.npc.Asset)
                         poolItem.npc.Asset.transform.localPosition = Vector3.zero;
 
-                    OnMobileNPCDisable?.Invoke(poolItem);
+                    if(OnMobileNPCDisable != null) OnMobileNPCDisable.Invoke(poolItem);
                 }
 
                 populationPool[i] = poolItem;
@@ -283,7 +283,7 @@ namespace DaggerfallWorkshop.Game.Utility
             // Add to pool
             populationPool.Add(poolItem);
 
-            OnMobileNPCCreate?.Invoke(poolItem);
+            if(OnMobileNPCCreate != null) OnMobileNPCCreate.Invoke(poolItem);
 
             return populationPool.Count - 1;
         }

@@ -36,9 +36,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.MagnitudeCosts = MakeEffectCosts(8, 8);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("regenerate");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1566);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1266);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("regenerate"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1566); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1266); } }
 
 
         public override void Start(EntityEffectManager manager, DaggerfallEntityBehaviour caster = null)

@@ -96,8 +96,8 @@ namespace DaggerfallWorkshop.Game.Utility
                 {
                     if (selectedCompiler == 0)
                     {
-                        Assembly assembly = Compiler.CompileSource(filesToCompile.ToArray(), false, false);
-                        Debug.Log(string.Format("Assembly {0} created", assembly.GetName().Name));
+                        //Assembly assembly = Compiler.CompileSource(filesToCompile.ToArray(), false, false);
+                        //Debug.Log(string.Format("Assembly {0} created", assembly.GetName().Name));
                     }
                     else
                     {

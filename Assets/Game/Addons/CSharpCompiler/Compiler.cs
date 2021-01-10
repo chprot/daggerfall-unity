@@ -22,6 +22,7 @@ namespace DaggerfallWorkshop.Game.Utility
 {
     public class Compiler
     {
+#if false
         private static Dictionary<string, Assembly> DynamicAssemblyResolver = new Dictionary<string, Assembly>();
         private static CSharpCompiler.CodeCompiler CodeCompiler;
 
@@ -107,5 +108,6 @@ namespace DaggerfallWorkshop.Game.Utility
             // Return the assembly
             return result.CompiledAssembly;
         }
+#endif
     }
 }

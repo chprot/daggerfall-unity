@@ -181,8 +181,8 @@ namespace DaggerfallWorkshop
                 Task generateSamplesTask = Task.Factory.StartNew(GenerateSamplesTask, generateSamplesParams);
                 tasks.Add(generateSamplesTask);
             }
-
-            return Task.WhenAll(tasks);
+            
+            return Task.Run(() => Task.WaitAll(tasks.ToArray()));
         }
     }
 }

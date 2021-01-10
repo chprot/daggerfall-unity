@@ -34,9 +34,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.DurationCosts = MakeEffectCosts(8, 40);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("light");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1563);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1263);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("light"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1563); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1263); } }
 
         public override void Start(EntityEffectManager manager, DaggerfallEntityBehaviour caster = null)
         {

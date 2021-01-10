@@ -88,10 +88,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             SetVariantProperties(DFCareer.Elements.Magic);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("elementalResistance");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText(subGroupTextKeys[currentVariant]);
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1527 + currentVariant);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1227 + currentVariant);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("elementalResistance"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText(subGroupTextKeys[currentVariant]); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1527 + currentVariant); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1227 + currentVariant); } }
 
         public override void SetPotionProperties()
         {

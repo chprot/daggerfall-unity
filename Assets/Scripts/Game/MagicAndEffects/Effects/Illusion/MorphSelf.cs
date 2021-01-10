@@ -32,9 +32,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.MagicSkill = DFCareer.MagicSkills.Illusion;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("morphSelf");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1579);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1279);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("morphSelf"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1579); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1279); } }
 
         public override void MagicRound()
         {

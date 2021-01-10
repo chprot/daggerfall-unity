@@ -1015,7 +1015,7 @@ namespace DaggerfallWorkshop
                 if (actionDoor)
                     actionDoor.LoadID = loadID;
                 else
-                    Debug.LogError($"Failed to get DaggerfallActionDoor on {modelId}. Make sure is added to door prefab.");
+                    Debug.LogError("Failed to get DaggerfallActionDoor on " + modelId + ". Make sure is added to door prefab.");
 
                 if (SaveLoadManager.Instance != null)
                     go.AddComponent<SerializableActionDoor>();

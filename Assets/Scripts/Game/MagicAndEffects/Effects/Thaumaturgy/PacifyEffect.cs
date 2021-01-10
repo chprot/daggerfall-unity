@@ -73,10 +73,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             SetVariantProperties(DFCareer.EnemyGroups.Daedra, 3);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("pacify");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText(subGroupTextKeys[currentVariant]);
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1585 + currentVariant);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1285 + currentVariant);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("pacify"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText(subGroupTextKeys[currentVariant]); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1585 + currentVariant); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1285 + currentVariant); } }
 
         public override void MagicRound()
         {

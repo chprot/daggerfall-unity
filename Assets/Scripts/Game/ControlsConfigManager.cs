@@ -55,7 +55,8 @@ namespace DaggerfallWorkshop.Game
 
         public static string ElongatedButtonText { get { return "..."; } }
 
-        public bool UsingPrimary { get; set; } = true;
+        private bool usingPrimary = true;
+        public bool UsingPrimary { get { return usingPrimary; } set { usingPrimary = value; } }
 
         #endregion
 
@@ -299,7 +300,7 @@ namespace DaggerfallWorkshop.Game
             var action = (InputManager.Actions)Enum.Parse(typeof(InputManager.Actions), button.Name);
             string text = GetButtonText(GetUnsavedBindingKeyCode(action), true);
 
-            removeAssignmentBox.SetText(string.Format(prompt, Regex.Replace(button.Name, "(?<=[a-z])([A-Z])", " $1", RegexOptions.Compiled).Trim(), text));
+            removeAssignmentBox.SetText(string.Format(prompt, Regex.Replace(button.Name, "(?<=[a-z])([A-Z])", " $1", RegexOptions.None).Trim(), text));
 
             removeAssignmentBox.AddButton(DaggerfallMessageBox.MessageBoxButtons.Yes);
             removeAssignmentBox.AddButton(DaggerfallMessageBox.MessageBoxButtons.No, true);
@@ -558,7 +559,7 @@ namespace DaggerfallWorkshop.Game
         {
             if (str.Length <= maxButtonTextLength || fullString)
                 //Split camel/pascal case by spaces
-                return Regex.Replace(str, "(?<=[a-z])([A-Z])", " $1", RegexOptions.Compiled).Trim();
+                return Regex.Replace(str, "(?<=[a-z])([A-Z])", " $1", RegexOptions.None).Trim();
 
             return ElongatedButtonText;
         }

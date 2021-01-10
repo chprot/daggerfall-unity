@@ -83,7 +83,7 @@ namespace Wenzil.Console
             ConsoleCommandsDatabase.RegisterCommand(GetLocationMapPixel.name, GetLocationMapPixel.description, GetLocationMapPixel.usage, GetLocationMapPixel.Execute);
             ConsoleCommandsDatabase.RegisterCommand(Teleport.name, Teleport.description, Teleport.usage, Teleport.Execute);
             ConsoleCommandsDatabase.RegisterCommand(Groundme.name, Groundme.description, Groundme.usage, Groundme.Execute);
-            ConsoleCommandsDatabase.RegisterCommand(ExecuteScript.name, ExecuteScript.description, ExecuteScript.usage, ExecuteScript.Execute);
+            //ConsoleCommandsDatabase.RegisterCommand(ExecuteScript.name, ExecuteScript.description, ExecuteScript.usage, ExecuteScript.Execute);
             ConsoleCommandsDatabase.RegisterCommand(AddInventoryItem.name, AddInventoryItem.description, AddInventoryItem.usage, AddInventoryItem.Execute);
             ConsoleCommandsDatabase.RegisterCommand(AddArtifact.name, AddArtifact.description, AddArtifact.usage, AddArtifact.Execute);
             ConsoleCommandsDatabase.RegisterCommand(AddWeapon.name, AddWeapon.description, AddWeapon.usage, AddWeapon.Execute);
@@ -2382,6 +2382,7 @@ namespace Wenzil.Console
 
         private static class ExecuteScript
         {
+#if false
             public static readonly string name = "execute";
             public static readonly string description = "compiles source files (and instanties objects when possible) from streaming assets path.";
             public static readonly string error = "invalid paramater.";
@@ -2455,6 +2456,7 @@ namespace Wenzil.Console
                     return ex.Message;
                 }
             }
+#endif
         }
 
         private static class PlayFLC

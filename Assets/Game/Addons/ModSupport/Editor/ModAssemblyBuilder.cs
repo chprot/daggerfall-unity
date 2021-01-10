@@ -41,7 +41,7 @@ namespace DaggerfallWorkshop.Game.Utility
             {
                 if (!assemblyBuilder.Build())
                 {
-                    Debug.LogError($"Failed to start build of assembly {assemblyPath}.");
+                    Debug.LogError("Failed to start build of assembly "+assemblyPath+".");
                     return false;
                 }
 
@@ -55,7 +55,7 @@ namespace DaggerfallWorkshop.Game.Utility
 
             if (!File.Exists(assemblyPath))
             {
-                Debug.LogError($"Failed to build {assemblyPath}.");
+                Debug.LogError("Failed to build "+assemblyPath+".");
                 return false;
             }
 

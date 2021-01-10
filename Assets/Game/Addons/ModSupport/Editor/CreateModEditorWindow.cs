@@ -81,7 +81,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
             documentationGUIContent = new GUIContent(EditorGUIUtility.IconContent("_Help"));
             documentationGUIContent.text = " Mod System Documentation";
-            targetInfoGUIContent = new GUIContent($"{VersionInfo.DaggerfallUnityProductName} {VersionInfo.DaggerfallUnityStatus} {VersionInfo.DaggerfallUnityVersion} (Unity {VersionInfo.BaselineUnityVersion})");
+            targetInfoGUIContent = new GUIContent("" + VersionInfo.DaggerfallUnityProductName + " " + VersionInfo.DaggerfallUnityStatus + " " + VersionInfo.DaggerfallUnityVersion + " (Unity " + VersionInfo.BaselineUnityVersion + ")");
             isSupportedEditorVersion = IsSupportedEditorVersion();
         }
 
@@ -487,14 +487,14 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             for (int i = 0; i < selection.Length; i++)
             {
                 string path = FixSeperatorCharacters(AssetDatabase.GetAssetPath(selection[i].GetInstanceID()));
-                if (string.IsNullOrWhiteSpace(path))
+                if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(path.Trim()))
                 {
                     const string errorMessage = "Selected asset is not saved to disk. Make sure you selected an asset from the Project window and not the Hierarchy window.";
                     EditorUtility.DisplayDialog("Mod Builder", errorMessage, "OK");
                 }
                 else if (!File.Exists(path))
                 {
-                    EditorUtility.DisplayDialog("Mod Builder", $"Path {path} doesn't exist.", "OK");
+                    EditorUtility.DisplayDialog("Mod Builder", "Path " + path + " doesn't exist.", "OK");
                 }
                 else
                 {
@@ -653,7 +653,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             //build for every target in buildTarget array
             for (int i = 0; i < buildTargets.Length; i++)
             {
-                if (EditorUtility.DisplayCancelableProgressBar(modBuilderLabel, $"Building for {buildTargets[i]}.", (float)i / buildTargets.Length))
+                if (EditorUtility.DisplayCancelableProgressBar(modBuilderLabel, "Building for " + buildTargets[i] + ".", (float)i / buildTargets.Length))
                     return false;
 
                 if (buildTargetsToggles[i] == false) { continue;  }
@@ -695,7 +695,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
             if (index == -1)
             {
-                Debug.LogError($"Invalid string: {fullPath}, can't get AssetPath.");
+                Debug.LogError("Invalid string: " + fullPath + ", can't get AssetPath.");
                 return null;
             }
 

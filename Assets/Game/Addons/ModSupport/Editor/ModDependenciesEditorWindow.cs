@@ -67,7 +67,9 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             addDependencyContent = new GUIContent("Add Dependency", EditorGUIUtility.IconContent("CreateAddNew@2x").image);
             saveAndCloseContent = new GUIContent("Save and Close", EditorGUIUtility.IconContent("SaveAs@2x").image);
 
-            string[] files = Directory.GetFiles(Path.Combine(Application.dataPath, "StreamingAssets", "Mods"), "*.dfmod");
+            string path = Path.Combine(Application.dataPath, "StreamingAssets");
+            path = Path.Combine(path, "Mods");
+            string[] files = Directory.GetFiles(path, "*.dfmod");
             var availableMods = files.Select(x => Path.GetFileNameWithoutExtension(x)).ToList();
             availableMods.Add("<other>");
             this.availableMods = availableMods.ToArray();
@@ -110,7 +112,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
                             if (GUILayout.Button(deleteDependencyContent, EditorStyles.toolbarButton, GUILayout.Width(70)))
                             {
-                                if (dependency.Name == null || EditorUtility.DisplayDialog("Delete dependency", $"Are you sure you want to delete dependency to {dependency.Name}?", "Yes", "No"))
+                                if (dependency.Name == null || EditorUtility.DisplayDialog("Delete dependency", "Are you sure you want to delete dependency to "+dependency.Name+"?", "Yes", "No"))
                                     applyDeletionRequests |= dependency.DeletionRequest = true;
                             }
                         });
@@ -174,7 +176,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
         {
             this.modInfo = modInfo;
 
-            ModDependency[] dependencies = modInfo.Dependencies ?? Array.Empty<ModDependency>();
+            ModDependency[] dependencies = modInfo.Dependencies ?? new ModDependency[0];
             var editorDataGroup = new ModDependencyEditorData[dependencies.Length];
 
             for (int i = 0; i < dependencies.Length; i++)
@@ -190,7 +192,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                 editorData.IsOptional = dependency.IsOptional ? 1 : 0;
                 editorData.IsPeer = dependency.IsPeer ? 1 : 0;
 
-                editorData.RequireVersion = !string.IsNullOrWhiteSpace(dependency.Version);
+                editorData.RequireVersion = !string.IsNullOrEmpty(dependency.Version) && !string.IsNullOrEmpty(dependency.Version.Trim());
                 if (editorData.RequireVersion)
                 {
                     int[] versionParts = dependency.Version.Split('.').Select(x => int.Parse(x)).ToArray();
@@ -212,7 +214,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
             foreach (ModDependencyEditorData editorData in this.dependencies)
             {
-                if (string.IsNullOrWhiteSpace(editorData.Name))
+                if (string.IsNullOrEmpty(editorData.Name) || string.IsNullOrEmpty(editorData.Name.Trim()))
                     continue;
 
                 var dependency = new ModDependency();
@@ -225,7 +227,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                 if (editorData.RequireVersion)
                 {
                     Vector3Int version = editorData.Version;
-                    dependency.Version = $"{version.x}.{version.y}.{version.z}";
+                    dependency.Version = "" + version.x + "." + version.y + "." + version.z;
                 }
 
                 dependencies.Add(dependency);
@@ -239,16 +241,16 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             string title;
             string iconName;
 
-            if (string.IsNullOrWhiteSpace(dependency.Name))
+            if (string.IsNullOrEmpty(dependency.Name) || string.IsNullOrEmpty(dependency.Name.Trim()))
             {
-                title = $"New #{index}";
+                title = "New #"+index;
                 iconName = "PrefabModel On Icon";
             }
             else
             {
                 var rawParts = dependency.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 var formattedParts = rawParts.Select(x => x.First().ToString().ToUpper() + x.Substring(1));
-                title = string.Join(" ", formattedParts);
+                title = string.Join(" ", formattedParts.ToArray());
                 iconName = "PrefabModel Icon";
             }
 

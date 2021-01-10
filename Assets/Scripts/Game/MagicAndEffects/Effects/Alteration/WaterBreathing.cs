@@ -34,9 +34,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.DurationCosts = MakeEffectCosts(20, 8);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("waterBreathing");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1582);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1282);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("waterBreathing"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1582); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1282); } }
 
         public override void SetPotionProperties()
         {

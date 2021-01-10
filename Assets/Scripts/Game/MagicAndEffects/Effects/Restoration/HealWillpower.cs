@@ -34,9 +34,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             healStat = DFCareer.Stats.Willpower;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("heal");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("willpower");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1542);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1242);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("heal"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("willpower"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1542); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1242); } }
     }
 }

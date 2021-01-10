@@ -37,10 +37,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.ChanceCosts = MakeEffectCosts(80, 140);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("dispel");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("undead");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1517);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1217);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("dispel"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("undead"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1517); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1217); } }
 
         public override void Start(EntityEffectManager manager, DaggerfallEntityBehaviour caster = null)
         {

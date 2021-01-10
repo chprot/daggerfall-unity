@@ -34,10 +34,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.DurationCosts = MakeEffectCosts(20, 8, 200);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("detect");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("enemy");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1597);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1297);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("detect"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("enemy"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1597); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1297); } }
 
         protected override bool IsLikeKind(IncumbentEffect other)
         {

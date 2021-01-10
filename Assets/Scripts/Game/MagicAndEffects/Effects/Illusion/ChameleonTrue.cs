@@ -36,11 +36,11 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             startConcealmentMessageKey = "youAreBlending";
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("chameleon");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("true");
-        public override string DisplayName => string.Format("{0} ({1})", GroupName, SubGroupName);
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1572);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1272);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("chameleon"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("true"); } }
+        public override string DisplayName { get { return string.Format("{0} ({1})", GroupName, SubGroupName); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1572); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1272); } }
 
         protected override bool IsLikeKind(IncumbentEffect other)
         {

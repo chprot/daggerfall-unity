@@ -200,7 +200,7 @@ namespace DaggerfallWorkshop
             List<Task> tasks = new List<Task>();
             tasks.Add(dependencies);
             tasks.Add(calcAvgMaxHeightTask);
-            return Task.WhenAll(tasks);
+            return Task.Run(() => Task.WaitAll(tasks.ToArray()));
         }
 
         public static Task ScheduleBlendLocationTerrainJob(ref MapPixelData mapPixel, Task dependencies)
@@ -225,7 +225,7 @@ namespace DaggerfallWorkshop
             List<Task> tasks = new List<Task>();
             tasks.Add(dependencies);
             tasks.Add(blendLocationTerrainTask);
-            return Task.WhenAll(tasks);
+            return Task.Run(() => Task.WaitAll(tasks.ToArray()));
         }
         
         public static Task ScheduleUpdateTileMapDataJob(ref MapPixelData mapPixel, Task dependencies)
@@ -247,7 +247,7 @@ namespace DaggerfallWorkshop
                 tasks.Add(updateTilemapDataTask);
             }
             tasks.Add(dependencies);
-            return Task.WhenAll(tasks);
+            return Task.Run(() => Task.WaitAll(tasks.ToArray()));
         }
 
         #endregion

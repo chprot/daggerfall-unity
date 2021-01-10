@@ -34,7 +34,7 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.EnchantmentPayloadFlags = EnchantmentPayloadFlags.Enchanted;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText(EffectKey);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText(EffectKey); } }
 
         public override EnchantmentSettings[] GetEnchantmentSettings()
         {

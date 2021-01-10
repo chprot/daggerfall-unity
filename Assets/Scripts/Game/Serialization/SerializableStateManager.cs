@@ -421,7 +421,7 @@ namespace DaggerfallWorkshop.Game.Serialization
                 SerializableEnemy serializableEnemy = go.GetComponent<SerializableEnemy>();
                 serializableEnemy.RestoreSaveData(enemies[i]);
 
-                GameManager.Instance?.RaiseOnEnemySpawnEvent(go);
+                if (GameManager.Instance != null) GameManager.Instance.RaiseOnEnemySpawnEvent(go);
             }
         }
 

@@ -1156,7 +1156,7 @@ namespace DaggerfallWorkshop.Utility
             }
             else
             {
-                Debug.LogError($"Failed to get DaggerfallActionDoor on {modelId}. Make sure is added to door prefab.");
+                Debug.LogError("Failed to get DaggerfallActionDoor on " + modelId +". Make sure is added to door prefab.");
             }
 
             return go;
@@ -1545,7 +1545,7 @@ namespace DaggerfallWorkshop.Utility
                 enemy.LoadID = loadID;
             }
 
-            GameManager.Instance?.RaiseOnEnemySpawnEvent(go);
+            if (GameManager.Instance != null) GameManager.Instance.RaiseOnEnemySpawnEvent(go);
 
         }
 

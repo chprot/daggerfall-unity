@@ -34,9 +34,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             healStat = DFCareer.Stats.Endurance;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("heal");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("endurance");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1544);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1244);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("heal"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("endurance"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1544); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1244); } }
     }
 }

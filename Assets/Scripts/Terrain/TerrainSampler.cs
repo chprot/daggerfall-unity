@@ -123,7 +123,7 @@ namespace DaggerfallWorkshop
                     mapPixel.heightmapData[JobA.Idx(y, x, hDim)] = mapPixel.heightmapSamples[y, x];
                 }
             }
-            return Task.CompletedTask;
+            return Task.Run(() => { return; }); // return completed task
         }
     }
 }

@@ -36,11 +36,11 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             startConcealmentMessageKey = "youAreInvisible";
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("invisibility");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("normal");
-        public override string DisplayName => string.Format("{0} ({1})", GroupName, SubGroupName);
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1560);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1260);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("invisibility"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("normal"); } }
+        public override string DisplayName { get { return string.Format("{0} ({1})", GroupName, SubGroupName); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1560); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1260); } }
 
         public override void SetPotionProperties()
         {

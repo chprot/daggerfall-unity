@@ -101,10 +101,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             SetVariantProperties(VariantTypes.Arcane);
         }
 
-        public override string GroupName => groupName;
-        public override string SubGroupName => subGroupNames[currentVariant];
-        public override TextFile.Token[] SpellMakerDescription => GetSpellMakerDescription();
-        public override TextFile.Token[] SpellBookDescription => GetSpellBookDescription();
+        public override string GroupName { get { return groupName; } }
+        public override string SubGroupName { get { return subGroupNames[currentVariant]; } }
+        public override TextFile.Token[] SpellMakerDescription { get { return GetSpellMakerDescription(); } }
+        public override TextFile.Token[] SpellBookDescription { get { return GetSpellBookDescription(); } }
 
         // Start is called when the effect is first initialised - do any setup work here
         // Note: Start is called even if effect is never assigned to entity

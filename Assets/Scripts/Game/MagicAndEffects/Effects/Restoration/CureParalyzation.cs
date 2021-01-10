@@ -33,10 +33,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.ChanceCosts = MakeEffectCosts(20, 140);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("cure");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("paralyzation");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1511);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1211);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("cure"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("paralyzation"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1511); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1211); } }
 
         public override void MagicRound()
         {

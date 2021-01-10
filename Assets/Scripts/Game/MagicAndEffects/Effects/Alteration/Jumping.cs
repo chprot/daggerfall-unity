@@ -35,9 +35,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
         }
 
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("jumping");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1577);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1277);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("jumping"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1577); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1277); } }
 
         public override void ConstantEffect()
         {

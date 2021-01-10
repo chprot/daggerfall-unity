@@ -36,9 +36,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             fortifyStat = DFCareer.Stats.Luck;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("fortifyAttribute");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("luck");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1539);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1239);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("fortifyAttribute"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("luck"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1539); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1239); } }
     }
 }

@@ -383,7 +383,7 @@ public class ModLoaderInterfaceWindow : DaggerfallPopupWindow
             modTitleLabel.Text += " (debug)";
 #endif
 
-        bool hasDescription = !string.IsNullOrWhiteSpace(ms.modInfo.ModDescription);
+        bool hasDescription = !string.IsNullOrEmpty(ms.modInfo.ModDescription) && !string.IsNullOrEmpty(ms.modInfo.ModDescription.Trim());
         showModDescriptionButton.BackgroundColor = hasDescription ? textColor : disabledButtonBackground;
 
         // Update buttons
@@ -613,7 +613,9 @@ public class ModLoaderInterfaceWindow : DaggerfallPopupWindow
         if (assets == null)
             return;
 
-        string path = Path.Combine(Application.persistentDataPath, "Mods", "ExtractedFiles", mod.FileName);
+        string path = Path.Combine(Application.persistentDataPath, "Mods");
+        path = Path.Combine(path, "ExtractedFiles");
+        path = Path.Combine(path, mod.FileName);
         Directory.CreateDirectory(path);
 
         for (int i = 0; i < assets.Length; i++)
@@ -685,7 +687,7 @@ public class ModLoaderInterfaceWindow : DaggerfallPopupWindow
     {
         if (modSettings == null || modSettings.Length < 1)
             return;
-        else if (string.IsNullOrWhiteSpace(modSettings[currentSelection].modInfo.ModDescription))
+        else if (string.IsNullOrEmpty(modSettings[currentSelection].modInfo.ModDescription) || string.IsNullOrEmpty(modSettings[currentSelection].modInfo.ModDescription.Trim()))
             return;
 
         ModDescriptionMessageBox = new DaggerfallMessageBox(uiManager, this, true);

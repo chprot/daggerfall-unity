@@ -35,9 +35,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             drainStat = DFCareer.Stats.Intelligence;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("transfer");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("intelligence");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1551);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1251);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("transfer"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("intelligence"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1551); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1251); } }
     }
 }

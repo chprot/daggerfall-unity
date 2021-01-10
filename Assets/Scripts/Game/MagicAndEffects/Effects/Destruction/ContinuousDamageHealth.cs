@@ -37,10 +37,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.MagnitudeCosts = MakeEffectCosts(40, 28);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("continuousDamage");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("health");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1504);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1204);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("continuousDamage"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("health"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1504); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1204); } }
 
         public override void MagicRound()
         {

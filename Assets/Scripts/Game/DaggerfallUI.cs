@@ -177,7 +177,8 @@ namespace DaggerfallWorkshop.Game
             set { globalFilterMode = value; }
         }
 
-        public Event KeyEvent { get; private set; } = new Event();
+        private Event keyEvent = new Event();
+        public Event KeyEvent { get { return keyEvent; } private set { keyEvent = value; } }
 
         public char LastCharacterTyped
         {

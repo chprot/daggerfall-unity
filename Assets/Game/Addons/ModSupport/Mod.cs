@@ -1004,7 +1004,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"Failed to seek mod loader on {Title}: {ex.Message}");
+                    Debug.LogError("Failed to seek mod loader on " + Title + ": " + ex.Message);
                     CheckMissingReferences(assemblies[i]);
                     continue;
                 }
@@ -1152,7 +1152,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
             }
 
             if (missingReferences.Count > 0)
-                Debug.LogError($"{Title} requires the following missing assemblies:\n{string.Join("\n", missingReferences)}.");
+                Debug.LogError(Title + " requires the following missing assemblies:\n" + string.Join("\n", missingReferences.ToArray()) + ".");
         }
 
         #endregion

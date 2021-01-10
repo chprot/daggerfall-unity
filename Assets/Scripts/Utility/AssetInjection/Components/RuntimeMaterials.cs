@@ -118,7 +118,7 @@ namespace DaggerfallWorkshop.Utility.AssetInjection
         public void ApplyMaterials(int[] dungeonTextureTable, RuntimeMaterial[] materials = null)
         {
             if (dungeonTextureTable == null)
-                throw new ArgumentNullException(nameof(dungeonTextureTable));
+                throw new ArgumentNullException("dungeonTextureTable");
 
             if (Application.isPlaying)
             {

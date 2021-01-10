@@ -29,7 +29,7 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             InfectionType = LycanthropyTypes.Wereboar;
         }
 
-        public override TextFile.Token[] ContractedMessageTokens => null;
+        public override TextFile.Token[] ContractedMessageTokens { get { return null; } }
 
         protected override void DeployFullBlownLycanthropy()
         {

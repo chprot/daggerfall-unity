@@ -25,6 +25,6 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             diseaseData = GetClassicDiseaseData(diseaseType);
         }
 
-        public override TextFile.Token[] ContractedMessageTokens => GetClassicContractedMessageTokens(diseaseType);
+        public override TextFile.Token[] ContractedMessageTokens { get { return GetClassicContractedMessageTokens(diseaseType); } }
     }
 }

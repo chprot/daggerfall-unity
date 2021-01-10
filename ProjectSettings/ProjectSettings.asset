@@ -171,7 +171,7 @@ PlayerSettings:
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
-  stripEngineCode: 1
+  stripEngineCode: 0
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
   ForceInternetPermission: 0
@@ -583,8 +583,8 @@ PlayerSettings:
   psp2PatchOriginalPackage: 
   psp2PackagePassword: frAQBc8Wsa1xVPfvJcrgRYwTiizs2trQ
   psp2KeystoneFile: 
-  psp2MemoryExpansionMode: 0
-  psp2DRMType: 0
+  psp2MemoryExpansionMode: 3
+  psp2DRMType: 1
   psp2StorageType: 0
   psp2MediaCapacity: 0
   psp2DLCConfigPath: 
@@ -641,9 +641,9 @@ PlayerSettings:
   incrementalIl2cppBuild:
     iPhone: 0
   additionalIl2CppArgs: 
-  scriptingRuntimeVersion: 1
+  scriptingRuntimeVersion: 0
   apiCompatibilityLevelPerPlatform:
-    Standalone: 3
+    Standalone: 1
   m_RenderingPath: 3
   m_MobileRenderingPath: 1
   metroPackageName: DaggerfallUnity
@@ -729,7 +729,7 @@ PlayerSettings:
     UNet: 1
     Unity_Ads: 0
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 3
+  apiCompatibilityLevel: 2
   cloudProjectId: 749f2e47-f08a-49c7-9fc9-76efc48f6add
   projectName: Daggerfall Unity
   organizationId: interkarma

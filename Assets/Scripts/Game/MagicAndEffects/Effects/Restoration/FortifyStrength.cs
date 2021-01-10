@@ -36,10 +36,10 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             fortifyStat = DFCareer.Stats.Strength;
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("fortifyAttribute");
-        public override string SubGroupName => TextManager.Instance.GetLocalizedText("strength");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1532);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1232);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("fortifyAttribute"); } }
+        public override string SubGroupName { get { return TextManager.Instance.GetLocalizedText("strength"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1532); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1232); } }
 
         public override void SetPotionProperties()
         {

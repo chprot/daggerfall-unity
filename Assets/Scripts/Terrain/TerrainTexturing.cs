@@ -101,7 +101,7 @@ namespace DaggerfallWorkshop
                 tasks.Add(assignTilesTask);
             }
 
-            return Task.WhenAll(tasks);
+            return Task.Run(() => Task.WaitAll(tasks.ToArray()));
         }
 
         #region Marching Squares - WIP

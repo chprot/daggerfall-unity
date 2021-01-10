@@ -587,9 +587,9 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                         continue;
                     }
 
-                    if (string.IsNullOrWhiteSpace(modInfo.ModTitle))
+                    if (string.IsNullOrEmpty(modInfo.ModTitle) || string.IsNullOrEmpty(modInfo.ModTitle.Trim()))
                     {
-                        Debug.LogError($"Discarded {manifestPath} because it doesn't have a valid title.");
+                        Debug.LogError("Discarded " + manifestPath + " because it doesn't have a valid title.");
                         continue;
                     }
 
@@ -715,7 +715,7 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
                         }
                         catch (TargetInvocationException e)
                         {
-                            Debug.LogError($"Exception has been thrown by entry point \"{mi.Name}\" of mod \"{mods[i].Title}\":\n{e.InnerException}");
+                            Debug.LogError("Exception has been thrown by entry point \"" +mi.Name +"\" of mod \"" + mods[i].Title + "\":\n" + e.InnerException);
                         }
                     }
                 }
@@ -747,8 +747,9 @@ namespace DaggerfallWorkshop.Game.Utility.ModSupport
 
             try
             {
-                assembly = Compiler.CompileSource(source, true);
-                return assembly;
+                // assembly = Compiler.CompileSource(source, true);
+                // return assembly;
+                return null;
             }
             catch (Exception ex)
             {

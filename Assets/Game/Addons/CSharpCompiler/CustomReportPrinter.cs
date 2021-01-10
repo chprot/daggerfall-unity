@@ -1,4 +1,4 @@
-﻿using System.CodeDom.Compiler;
+using System.CodeDom.Compiler;
 using Mono.CSharp;
 
 namespace CSharpCompiler
@@ -6,15 +6,15 @@ namespace CSharpCompiler
 
     public class CustomReportPrinter : ReportPrinter
     {
-
+#if false
         readonly CompilerResults compilerResults;
-        #region Properties
+#region Properties
 
         public new int ErrorsCount { get; protected set; }
 
         public new int WarningsCount { get; private set; }
 
-        #endregion
+#endregion
         public CustomReportPrinter(CompilerResults compilerResults)
         {
             this.compilerResults = compilerResults;
@@ -41,7 +41,7 @@ namespace CSharpCompiler
                 // msg.RelatedSymbols // extra info
             });
         }
-
+#endif
     }
 
 }

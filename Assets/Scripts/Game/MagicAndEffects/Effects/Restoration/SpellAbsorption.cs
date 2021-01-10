@@ -36,9 +36,9 @@ namespace DaggerfallWorkshop.Game.MagicAndEffects.MagicEffects
             properties.ChanceCosts = MakeEffectCosts(28, 140);
         }
 
-        public override string GroupName => TextManager.Instance.GetLocalizedText("spellAbsorption");
-        public override TextFile.Token[] SpellMakerDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1568);
-        public override TextFile.Token[] SpellBookDescription => DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1268);
+        public override string GroupName { get { return TextManager.Instance.GetLocalizedText("spellAbsorption"); } }
+        public override TextFile.Token[] SpellMakerDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1568); } }
+        public override TextFile.Token[] SpellBookDescription { get { return DaggerfallUnity.Instance.TextProvider.GetRSCTokens(1268); } }
 
         protected override bool IsLikeKind(IncumbentEffect other)
         {
