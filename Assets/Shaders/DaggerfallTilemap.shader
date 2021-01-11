@@ -56,8 +56,8 @@ Shader "Daggerfall/Tilemap" {
 		{
 			// Get offset to tile in atlas
 			int index = tex2D(_TilemapTex, IN.uv_MainTex).a * _MaxIndex + 0.5;
-			int ypos = int(float(index) / float(_TilesetDim));
-            int xpos = index * _TilesetDim - ypos;
+			int ypos = int(floor(float(index) / float(_TilesetDim)));
+            int xpos = index - (ypos * _TilesetDim); // index % _TilesetDim
 			float2 uv = float2(xpos, ypos) / _TilesetDim;
 
 			// Offset to fragment position inside tile
