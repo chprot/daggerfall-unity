@@ -63,6 +63,7 @@ Shader "Daggerfall/RetroPalettization"
                 //fixed4 color = fixed4(i.texcoord, frac(_Time.x), 1.0);
                 
                 //return fixed4(tex3D(_Lut, color.rgb).rgb, color.a);
+                return color;
             }
 			ENDCG
 		}

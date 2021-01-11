@@ -65,7 +65,7 @@ Shader "Daggerfall/Automap"
     			float4  pos : SV_POSITION;				
     			float2  uv : TEXCOORD0;
 				float3 worldPos : TEXCOORD5;
-				float3 normal : NORMAL;
+				//float3 normal : NORMAL;
                 //fixed4 color : COLOR;
 			};		
 
@@ -74,7 +74,7 @@ Shader "Daggerfall/Automap"
     			OUT.pos = UnityObjectToClipPos(v.vertex);
     			OUT.uv = v.texcoord;
 				OUT.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				OUT.normal = v.normal;
+				//OUT.normal = v.normal;
                 //OUT.color.xyz = _Color;
 			}
 
